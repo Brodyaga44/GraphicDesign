@@ -1,0 +1,22 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.userA {
+  &__container {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    font: 600 13px $font;
+
+  }
+
+  &__addUser {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 30px;
+    background-color: $btnGray;
+    border-radius: 8px;
+  }
+}

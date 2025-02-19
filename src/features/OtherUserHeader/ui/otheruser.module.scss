@@ -1,0 +1,45 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+.oht {
+  font-family: $font;
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    //justify-content: space-around;
+  }
+  &__leftPart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+  }
+  &__nick {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+  &__nickContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 600 16px $font;
+  }
+  &__notifyContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    width: 28px;
+    background-color: $red;
+    border-radius: 10px;
+    color: $white;
+    font: 400 12px $font;
+    line-height: 18px;
+    text-align: center;
+  }
+  &__rightPart {
+    display: flex;
+    gap: 3vw;
+  }
+}

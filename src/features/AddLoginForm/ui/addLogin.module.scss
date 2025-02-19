@@ -1,0 +1,20 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.addLogin {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  &__input {
+    display: flex;
+  }
+  &__error {
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: $red;
+    height: 8px;
+  }
+  &__logbtn {
+    background-color: $red;
+  }
+}

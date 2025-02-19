@@ -1,0 +1,29 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.useractionselector {
+  &__content {
+    display: flex;
+    gap: 6px;
+    padding:0 0 12px 12px ;
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 105px;
+    height: 30px;
+    background-color: $btnGray;
+    border-radius: 8px;
+  }
+  &__wideaction {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 328px;
+    height: 30px;
+    background-color: $btnGray;
+    border-radius: 8px;
+  }
+}

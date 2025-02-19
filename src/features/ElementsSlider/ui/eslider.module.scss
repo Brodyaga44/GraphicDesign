@@ -1,0 +1,58 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+.container {
+  display: flex;
+  align-items: center; /* Центрируем кнопки по вертикали */
+  justify-content: center;
+  width: 85vw;
+  gap: 10px;
+}
+
+.scrollableContainer {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: 20px;
+  border-radius: 20px;
+  width: 67vw; //поменять
+}
+
+.scrollableItem {
+  width: 200px; /* Примерная ширина каждой карточки */
+  margin-right: 20px;
+  flex-shrink: 0; /* Важно, чтобы элементы не сжимались */
+}
+
+.scrollButton__right {
+  background-color: $white; /* Цвет кнопок */
+  color: $black; /* Цвет текста кнопок */
+  border: 1px solid $black; /* Убираем рамку */
+  border-radius: 30px;
+  cursor: pointer; /* Курсор при наведении */
+  width: 40px;
+  height: 40px;
+  position: absolute;
+
+  right: 10vw;
+}
+.scrollButton__left {
+  background-color: $white; /* Цвет кнопок */
+  color: $black; /* Цвет текста кнопок */
+  border: 1px solid $black; /* Убираем рамку */
+  border-radius: 30px;
+  cursor: pointer; /* Курсор при наведении */
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 10vw;
+}
+
+.scrollButton:hover {
+  background-color: $lightblue; /* Цвет кнопок при наведении */
+}
+
+/* Скрываем полосу прокрутки */
+.scrollableContainer::-webkit-scrollbar {
+  display: none;
+}

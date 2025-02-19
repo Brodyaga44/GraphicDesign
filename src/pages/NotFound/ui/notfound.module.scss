@@ -1,0 +1,14 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.notfound {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  color: $red;
+  font-size: 24px;
+  font-family: $font;
+}

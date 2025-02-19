@@ -1,0 +1,26 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+.footer {
+  display: flex;
+  position: sticky;
+  bottom: 0;
+  border-top: solid $gray 1px;
+  z-index: 1001;
+  &__container {
+    @include media-mobile {
+      width: 100%;
+      height: 50px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 15px;
+      gap: 15vw;
+      background-color: $white;
+    }
+  }
+  &__item {
+    display: flex;
+    height: 24px;
+    width: 24px;
+  }
+}

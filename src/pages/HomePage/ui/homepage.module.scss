@@ -1,0 +1,89 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 35px 115px;
+  &__title {
+    font: 500 50px $mainfont;
+    margin: 20px 0;
+    padding-left: 5vw;
+  }
+  &__slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+
+
+  }
+  &__heroSlogan {
+    position: absolute;
+      font: 60px/1.3 $mainfont;
+      color: $white;
+      text-shadow: 1px 1px 1px #000;
+      animation: setText 1s 1;
+      min-width: max-content;
+      text-align: center;
+    z-index: 0;
+  }
+  &__heroSlogan::after {
+    content: ''; /* Псевдоэлемент без содержимого */
+    position: absolute; /* Абсолютное позиционирование */
+    top: 0%; /* Центрируем по вертикали */
+    left: -100%; /* Начальная позиция слева от текста */
+    width: 100%; /* Ширина фона равна ширине текста */
+    height: 100%; /* Высота фона равна высоте текста */
+    padding: 10px;
+    margin: -10px;
+    background-color: #747bff; /* Цвет фона */
+    border-radius: 0 20px 0 20px;
+    animation: slideInBackground 1s forwards; /* Анимация появления фона */
+    z-index: -1; /* Помещаем фон позади текста */
+  }
+
+  &__imgContainer{
+    width: 1400px;
+    height: 500px;
+
+  }
+  &__img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset;
+    -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset;
+    box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset;
+    border: 1px solid $gray;
+    z-index: 0;
+
+  }
+}
+@keyframes setText {
+  0% {
+    color: black;
+    margin-top: -80px;
+    opacity: 0;
+  }
+  100% {
+    margin-top: 0;
+  }
+}
+@keyframes slideInBackground {
+  from {
+    left: -100%; /* Начальная позиция слева от текста */
+    opacity: 0; /* Начальная прозрачность */
+  }
+  to {
+    left: 0; /* Конечная позиция за текстом */
+    opacity: 1; /* Конечная прозрачность */
+  }
+}

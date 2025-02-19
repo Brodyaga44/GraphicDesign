@@ -1,0 +1,23 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.badge {
+  display: flex;
+  gap: 6px;
+  &__notifyContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    width: 28px;
+    background-color: $red;
+    border-radius: 10px;
+    color: $white;
+    font: 400 12px $font;
+    line-height: 18px;
+    text-align: center;
+  }
+  &__arrow {
+    height: 16px;
+  }
+}

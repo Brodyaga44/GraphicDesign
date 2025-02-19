@@ -1,0 +1,28 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.login {
+  font: 500 13px $font;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  gap: 25px;
+  &__logo {
+    font: 500 60px $photogram;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}

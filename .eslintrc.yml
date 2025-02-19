@@ -1,0 +1,73 @@
+root: true
+env:
+  browser: true
+  es2021: true
+extends:
+  - 'eslint:recommended'
+  - "prettier"
+  - 'plugin:react/recommended'
+  - 'plugin:@typescript-eslint/recommended'
+parser: '@typescript-eslint/parser'
+ignorePatterns:
+  - "dist"
+  - ".eslintrc.yml"
+  - "vite.config.ts"
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 12
+  project:
+    - "./tsconfig.json"
+    - "./tsconfig.app.json"
+    - "./tsconfig.node.json"
+  sourceType: module
+plugins:
+  - react
+  - '@typescript-eslint'
+  - 'simple-import-sort'
+rules: {
+  "react/react-in-jsx-scope": "off",
+  "react/function-component-definition": "off",
+  "react/prop-types": "off",
+  "@typescript-eslint/indent": 'off',
+  "react/button-has-type": "off",
+  "jsx-a11y/label-has-associated-control": 'off',
+  "jsx-a11y/control-has-associated-label": 'off',
+  "react/jsx-props-no-spreading": "off",
+  "@typescript-eslint/comma-dangle": "off",
+  "import/extensions": "off",
+  "@typescript-eslint/quotes": "off",
+  "react-refresh/only-export-components": [
+    "off",
+    { allowConstantExport: true },
+  ],
+}
+"overrides": [
+  {
+    "files": ["*.ts", "*.tsx"],
+    "rules": {
+      "simple-import-sort/imports": [
+        "error",
+        {
+          "groups": [
+#            // React and libs.
+            ["^react", "^@?\\w"],
+#            // FSD imports.
+            [
+              "^(shared)(/.*|$)",
+              "^(entities)(/.*|$)",
+              "^(features)(/.*|$)",
+              "^(widgets)(/.*|$)"
+            ],
+#            // Parent imports. Put `..` last.
+            ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+#            // Other relative imports. Put same-folder imports and `.` last.
+            ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+#            // Style imports.
+            ["^.+\\.?(scss)$"]
+          ]
+        }
+      ]
+    }
+  }
+]

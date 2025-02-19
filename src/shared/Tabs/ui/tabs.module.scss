@@ -1,0 +1,43 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.tab {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  &__nav {
+    display: flex;
+  }
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 97px;
+    height: 40px;
+    border: none;
+    background-color: $white;
+    color: #c4c4c4;
+    transform: translate(0);
+  }
+
+  &__selected {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 97px;
+    height: 40px;
+    border: none;
+    background-color: $white;
+    border-bottom: 1px solid $black;
+    color: $black;
+    path {
+      stroke: currentColor;
+    }
+  }
+
+  &__content {
+    display: flex;
+  }
+}

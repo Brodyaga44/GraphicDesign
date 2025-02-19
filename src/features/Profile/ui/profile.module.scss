@@ -1,0 +1,18 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.profile {
+  font: 500 13px $font;
+  height: 24px;
+  width: 24px;
+  &__photo {
+    width: 24px;
+    height: 24px;
+  }
+  &__dropdown {
+      position: relative;
+  }
+}
+ .profile:hover .profile__content {
+   display: flex;
+ }

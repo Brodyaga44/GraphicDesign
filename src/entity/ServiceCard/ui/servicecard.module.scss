@@ -1,0 +1,26 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.scard {
+  font: 500 20px $newfont;
+  border-radius: 16px;
+  margin: 12px 4px;
+  min-height: 235px;
+  padding: 25px 6px 6px;
+  width: 188px;
+  background-color:$lime;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  &__title {
+    font-size: 18px;
+    line-height: 28px;
+    margin-left: 10px;
+    color: $white;
+  }
+  &__image {
+    border-radius: 10px;
+  }
+}

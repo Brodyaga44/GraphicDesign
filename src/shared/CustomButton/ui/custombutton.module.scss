@@ -1,0 +1,23 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 280px;
+  font: 600 13px $font;
+  background-color: $btnGray;
+  color: $black;
+  //border: 1px solid $black;
+  border: none;
+  border-radius: 5px;
+  &__primaryType {
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    color: $white;
+  }
+  &__secondaryType {
+    background-color: $btnGray;
+  }
+}

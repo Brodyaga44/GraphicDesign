@@ -1,0 +1,12 @@
+@import "/src/app/styles/utils/variables";
+@import "/src/app/styles/utils/media";
+
+.loading {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  gap: 10px;
+}

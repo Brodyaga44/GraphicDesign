@@ -1,0 +1,45 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.header {
+  display: flex;
+  height: 80px;
+  padding: 0 115px;
+  position: sticky;
+  top: 0;
+  font: 500 13px $mainfont;
+  border-bottom: 1px solid $gray;
+  background-color: $white;
+  z-index: 1;
+  &__content{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+  }
+  &__logo {
+    font: 500 60px $photogram;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__itemsContainer {
+    display: flex;
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+    font: 500 24px $mainfont;
+  }
+  &__item {
+    //
+  }
+  &__log {
+    padding: 5px;
+    border: 1px solid $lime;
+    border-radius: 5px;
+    color: $lime;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

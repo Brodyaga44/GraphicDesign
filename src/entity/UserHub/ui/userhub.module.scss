@@ -1,0 +1,9 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.hub {
+  &__icons {
+    display: flex;
+    gap: 3vw;
+  }
+}

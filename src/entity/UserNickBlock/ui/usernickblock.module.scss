@@ -1,0 +1,15 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.uht {
+  font-family: $font;
+  &__container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__nickContainer {
+    font: 600 20px $font;
+  }
+
+}

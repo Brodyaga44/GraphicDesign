@@ -1,0 +1,26 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.photo {
+  &__gallery {
+    display: flex;
+    flex-direction: column;
+  }
+  &__items {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 1px;
+  }
+  &__item {
+    width: 100%;
+  }
+  &__container {
+    width: 100%;
+  }
+  &__photo {
+    display: flex;
+    object-fit: cover;
+    width: 100%;
+  }
+}

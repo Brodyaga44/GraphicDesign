@@ -1,0 +1,21 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.about {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10vw;
+  font: 500 16px $mainfont;
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 310px;
+    height: 134px;
+  }
+  &__imgContainer {
+    width: 64px;
+    height: 64px;
+  }
+}
