@@ -11,6 +11,11 @@
   border-bottom: 1px solid $gray;
   background-color: $white;
   z-index: 1;
+  &__leftPart {
+    display: flex;
+    align-items: center;
+    gap: 42px;
+  }
   &__content{
     display: flex;
     justify-content: space-between;
@@ -22,6 +27,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    &:hover {
+      cursor: pointer;
+    }
   }
   &__itemsContainer {
     display: flex;
@@ -31,7 +39,14 @@
     font: 500 24px $mainfont;
   }
   &__item {
-    //
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__account {
+    display: flex;
+    align-items: center;
+    gap: 20px;
   }
   &__log {
     padding: 5px;

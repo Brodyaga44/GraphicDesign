@@ -1,0 +1,43 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.catProduct {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding-bottom: 80px;
+
+  &__container {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &__img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+      transform: scale(1.02);
+    }
+  }
+
+  &__desc {
+    display: flex;
+    padding-bottom: 10px;
+    font: 500 16px $mainfont;
+    text-align: center;
+  }
+}

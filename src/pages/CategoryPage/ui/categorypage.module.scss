@@ -1,0 +1,42 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.cat {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 35px 115px;
+  font: 500 16px $mainfont;
+  &__info {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 15px;
+  }
+  &__title {
+    display: flex;
+    font: 500 50px $mainfont;
+    margin: 20px 0;
+    padding-left: 5vw;
+  }
+  &__FAQ {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    border-top: 1px solid $gray;
+    font: 500 50px $mainfont;
+  }
+  &__infoElement {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  &__infoTitle {
+    font-weight: 600;
+  }
+  &__infoText {
+    font-weight: 500;
+    line-height: 25px;
+  }
+}

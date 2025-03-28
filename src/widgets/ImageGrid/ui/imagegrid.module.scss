@@ -1,0 +1,18 @@
+.gridContainer {
+  column-count: 4; /* 4 колонки */
+  column-gap: 10px; /* Расстояние между колонками */
+  width: 100%;
+  padding: 10px;
+}
+
+.gridItem {
+  display: inline-block; /* Даем возможность адаптироваться */
+  width: 100%;
+  margin-bottom: 10px; /* Отступ между картинками */
+}
+
+.image {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

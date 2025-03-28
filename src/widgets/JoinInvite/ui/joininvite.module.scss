@@ -1,0 +1,36 @@
+@import "@/app/styles/utils/variables";
+@import "@/app/styles/utils/media";
+
+.join {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  margin: 100px 0;
+  background-color: $darkRed;
+  border-radius: 15px;
+  color: $white;
+  font: 500 64px $mainfont;
+  &__btn {
+  display: flex;
+  align-items: center;
+  width: auto;
+  height: 30px;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: $white;
+  color: $black;
+    &:hover {
+      cursor: pointer;
+    }
+}
+  &__text {
+    font: 600 16px $mainfont;
+  }
+  &__specialText {
+    font: 500 94px $cursive;
+    color: orange;
+  }
+}

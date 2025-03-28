@@ -1,6 +1,7 @@
 import { RouteObject } from "react-router-dom";
 
 import {
+  CategoryPage,
   // AccountPage,
   HomePage,
   LoginPage,
@@ -22,6 +23,7 @@ const routes: RouteObject[] = [
       { path: "login", element: <LoginPage /> },
       { path: "reg", element: <RegistrationPage /> },
       { path: "following", element: <UserFollowingPage /> },
+      { path: "category/graphic-design", element: <CategoryPage /> },
     ],
   },
 ];

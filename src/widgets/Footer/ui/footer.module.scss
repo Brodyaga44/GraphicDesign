@@ -2,25 +2,32 @@
 @import "@/app/styles/utils/media";
 .footer {
   display: flex;
-  position: sticky;
-  bottom: 0;
+  padding: 16px 16px 0 16px;
+  justify-content: space-between;
   border-top: solid $gray 1px;
-  z-index: 1001;
-  &__container {
-    @include media-mobile {
-      width: 100%;
-      height: 50px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 15px;
-      gap: 15vw;
-      background-color: $white;
-    }
-  }
-  &__item {
+  color: $darkgray;
+  font: 500 16px $mainfont;
+  &__logo {
     display: flex;
-    height: 24px;
-    width: 24px;
+    align-items: center;
+    margin-bottom: 8px;
+    font: 500 24px $photogram;
+  }
+  &__copyright {
+    color: $gray50;
+  }
+  &__left {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  &__icon {
+    width: 20px;
+    height: 20px;
   }
 }
