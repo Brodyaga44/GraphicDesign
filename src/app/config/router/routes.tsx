@@ -11,6 +11,7 @@ import {
   UserPage,
 } from "@/pages";
 import Main from "@/pages/Main/ui/Main.tsx";
+import ProductPage from "@/pages/ProductPage/ui/ProfuctPage.tsx";
 const routes: RouteObject[] = [
   {
     path: "",
@@ -18,12 +19,13 @@ const routes: RouteObject[] = [
     children: [
       // { path: "", element: <AccountPage /> },
       { path: "", element: <HomePage /> },
-      { path: "userpage", element: <UserPage /> },
+      { path: "profile", element: <UserPage /> },
       { path: "*", element: <NotFound /> },
       { path: "login", element: <LoginPage /> },
       { path: "reg", element: <RegistrationPage /> },
       { path: "following", element: <UserFollowingPage /> },
       { path: "category/graphic-design", element: <CategoryPage /> },
+      { path: "/product/:id", element: <ProductPage /> },
     ],
   },
 ];

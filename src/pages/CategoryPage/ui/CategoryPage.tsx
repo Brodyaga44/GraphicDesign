@@ -9,6 +9,7 @@ const CategoryPage = () => {
       <Header />
       <main className={styles.cat}>
         <div className={styles.cat__title}>Графические рисунки</div>
+        <div>DROPDOWN</div>
         <CategoryProducts />
         <div className={styles.cat__FAQ}>
           Графические рисунки: Частые вопросы

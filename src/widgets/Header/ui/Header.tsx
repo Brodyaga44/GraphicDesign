@@ -30,6 +30,9 @@ const Header = () => {
     console.log("logout");
     navigate("/login");
   };
+  const goToProfile = () => {
+    navigate("/profile");
+  };
   const { user } = useAuthContext();
   return (
     <header className={styles.header}>
@@ -47,9 +50,8 @@ const Header = () => {
 
           {user ? (
             <UserDropdown
-              items={
-                <div onClick={handleClick}>{user ? "Выйти" : "Войти"}</div>
-              }
+              items={<div onClick={handleClick}>Выйти</div>}
+              profileButton={<div onClick={goToProfile}>Профиль</div>}
             >
               <div>
                 <Photo />
