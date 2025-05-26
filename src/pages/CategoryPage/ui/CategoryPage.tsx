@@ -1,16 +1,26 @@
+import { useState } from "react";
+
 import styles from "./categorypage.module.scss";
 
+import { ProductFilters } from "@/features/ProfuctFilters/ui/ProductFilters.tsx";
 import { CategoryProducts, Footer } from "@/widgets";
+import { productsMock } from "@/widgets/CategoryProducts/model/productsMock.ts";
 import Header from "@/widgets/Header/ui/Header.tsx";
 
 const CategoryPage = () => {
+  const [filteredProducts, setFilteredProducts] = useState(productsMock);
+
   return (
     <div>
       <Header />
       <main className={styles.cat}>
         <div className={styles.cat__title}>Графические рисунки</div>
-        <div>DROPDOWN</div>
-        <CategoryProducts />
+
+        <ProductFilters
+          products={productsMock}
+          onFilter={setFilteredProducts}
+        />
+        <CategoryProducts products={filteredProducts} />
         <div className={styles.cat__FAQ}>
           Графические рисунки: Частые вопросы
         </div>

@@ -1,61 +1,64 @@
-.product {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+.product__container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
 
-  &__container {
-    display: flex;
-    gap: 3rem;
-    margin-top: 2rem;
+.product__swiper {
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+}
 
-    @media (max-width: 768px) {
-      flex-direction: column;
-    }
-  }
+.product__image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
 
-  &__image {
-    width: 50%;
-    border-radius: 8px;
-    object-fit: cover;
+.product__info {
+  text-align: center;
+  max-width: 600px;
+}
 
-    @media (max-width: 768px) {
-      width: 100%;
-    }
-  }
+.product__title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
 
-  &__info {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+.product__description {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 2rem;
+}
 
-    @media (max-width: 768px) {
-      width: 100%;
-    }
-  }
+.product__button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-  &__title {
-    font-size: 2rem;
-    font-weight: 600;
-  }
+.product__button:hover {
+  background-color: #333;
+}
 
-  &__description {
-    line-height: 1.6;
-    color: #555;
-  }
+/* swiper arrows */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #000;
+}
 
-  &__button {
-    padding: 0.8rem 1.5rem;
-    background-color: #000;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
+/* swiper dots */
+.swiper-pagination-bullet {
+  background: #ccc;
+  opacity: 1;
+}
 
-    &:hover {
-      background-color: #333;
-    }
-  }
+.swiper-pagination-bullet-active {
+  background: #000;
 }

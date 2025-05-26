@@ -14,7 +14,6 @@
     position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;
     flex-direction: column;
   }
 
@@ -31,7 +30,13 @@
       border-color: rgba(0, 0, 0, 0.3);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
       transform: scale(1.02);
+      cursor: pointer;
     }
+  }
+  &__about {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
 
   &__desc {
@@ -39,5 +44,23 @@
     padding-bottom: 10px;
     font: 500 16px $mainfont;
     text-align: center;
+    cursor: pointer;
+    &:hover {
+    text-decoration: underline 1px solid;
+  }
+  }
+  &__authorPhoto {
+    width: 25px;
+    height: 25px;
+    border-radius: 15px;
+  }
+  &__authorSection {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-top: 5px;
+  }
+  &__priceBlock {
+    font-weight: bold;
   }
 }

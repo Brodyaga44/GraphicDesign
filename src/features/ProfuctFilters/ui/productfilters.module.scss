@@ -1,0 +1,150 @@
+.filtersContainer {
+  margin-bottom: 20px;
+}
+
+.filterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.filterButton {
+  padding: 8px 16px;
+  background: #f5f5f5;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.filterButton:hover {
+  background: #e6e6e6;
+}
+
+.dropdownMenu {
+  padding: 12px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  min-width: 200px;
+}
+
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.filterOption {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filterOption:hover {
+  background-color: #f0f0f0;
+}
+
+.filterOption.selected {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+.priceRange {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.priceInput {
+  width: 80px;
+}
+
+.rangeSeparator {
+  color: #888;
+}
+
+.dropdownActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+}
+.dropdownContent {
+  padding: 5px;
+}
+
+.applyButton {
+  padding: 6px 12px;
+  background: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  flex: 1;
+}
+
+.applyButton:hover {
+  background: #40a9ff;
+}
+
+.resetButton {
+  padding: 6px 12px;
+  background: #f5f5f5;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  flex: 1;
+}
+
+.resetButton:hover {
+  background: #e6e6e6;
+}
+
+.resetAllButton {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+}
+
+.resetAllButton:hover {
+  background: #f5f5f5;
+}
+
+@media (max-width: 768px) {
+  .filterButtons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filterButton {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .priceRange {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .priceInput {
+    width: 100%;
+  }
+}
+:global {
+  .ant-dropdown-menu {
+    padding: unset !important;
+  }
+}
