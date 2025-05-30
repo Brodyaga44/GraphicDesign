@@ -3,7 +3,7 @@ import { IProducts } from "@/widgets/CategoryProducts/model/IProducts.ts";
 export const productsMock: IProducts[] = [
   {
     id: 0,
-    title: "Невероятный рисунок",
+    title: "Животные в мультяшном стиле",
     src: "https://fiverr-res.cloudinary.com/t_gig_cards_web,q_auto,f_auto/gigs/202897971/original/ea6c8f2c1e498d2269b33bc222d2918d7a175fe2.png",
     author: "Oleg",
     author_photo:

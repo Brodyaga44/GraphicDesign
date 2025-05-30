@@ -22,7 +22,6 @@
     align-items: center;
     border-radius: 20px;
 
-
   }
   &__heroSlogan {
     position: absolute;
@@ -32,21 +31,21 @@
       animation: setText 1s 1;
       min-width: max-content;
       text-align: center;
-    z-index: 0;
+    z-index: 1;
   }
   &__heroSlogan::after {
-    content: ''; /* Псевдоэлемент без содержимого */
-    position: absolute; /* Абсолютное позиционирование */
-    top: 0%; /* Центрируем по вертикали */
-    left: -100%; /* Начальная позиция слева от текста */
-    width: 100%; /* Ширина фона равна ширине текста */
-    height: 100%; /* Высота фона равна высоте текста */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
     padding: 10px;
     margin: -10px;
-    background-color: #747bff; /* Цвет фона */
+    //background-color: #747bff; /* Цвет фона */
     border-radius: 0 20px 0 20px;
-    animation: slideInBackground 1s forwards; /* Анимация появления фона */
-    z-index: -1; /* Помещаем фон позади текста */
+    animation: slideInBackground 1s forwards;
+    z-index: -1;
   }
 
   &__imgContainer{
@@ -64,6 +63,7 @@
     box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset;
     border: 1px solid $gray;
     z-index: 0;
+    filter: brightness(40%);
 
   }
 }
