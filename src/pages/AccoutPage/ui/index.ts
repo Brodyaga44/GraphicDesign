@@ -1,4 +1,4 @@
 import { lazy } from "react";
 
-const AccountPageDisplay = lazy(() => import("./AccountPage.tsx"));
+const AccountPageDisplay = lazy(() => import("./AuthorPage.tsx"));
 export { AccountPageDisplay as AccountPage };

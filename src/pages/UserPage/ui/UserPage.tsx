@@ -1,8 +1,7 @@
 import styles from "./userpage.module.scss";
 
 import useAuthContext from "@/app/module/hooks/useAuthContext.ts";
-import { User } from "@/shared/config/interfaces/User/User.ts";
-import { Footer, UserHeader } from "@/widgets";
+import { Footer } from "@/widgets";
 import Header from "@/widgets/Header/ui/Header.tsx";
 
 const UserPage = () => {

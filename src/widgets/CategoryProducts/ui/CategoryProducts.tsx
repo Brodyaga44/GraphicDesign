@@ -4,50 +4,61 @@ import Star from "../../../shared/assets/Icons/rating/star-filled.svg?react";
 
 import styles from "./categoryproducts.module.scss";
 
-import { IProducts } from "@/widgets/CategoryProducts/model/IProducts.ts";
+import { authors } from "@/pages/AccoutPage/model/authors.ts";
+import { IProducts } from "@/widgets/CategoryProducts/model/IProducts";
+
 interface Props {
   products: IProducts[];
 }
+
 const CategoryProducts = ({ products }: Props) => {
   const navigate = useNavigate();
 
   const handleProductClick = (id: number) => {
     navigate(`/product/${id}`);
   };
+
   return (
     <div className={styles.catProduct}>
-      {products.map((product) => (
-        <div key={product.id} className={styles.catProduct__container}>
-          <img
-            src={product.src}
-            className={styles.catProduct__img}
-            onClick={() => handleProductClick(product.id)}
-          />
-          <div className={styles.catProduct__about}>
-            <section className={styles.catProduct__authorSection}>
-              <img
-                src={product.author_photo}
-                className={styles.catProduct__authorPhoto}
-              />
-              <div>{product.author}</div>
-              <Star />
-              <div>{product.rating}</div>
-            </section>
+      {products.map((product) => {
+        const author = authors.find((a) => a.id === product.author_id);
+        if (!author) return null;
 
-            <div
-              className={styles.catProduct__desc}
+        return (
+          <div key={product.id} className={styles.catProduct__container}>
+            <img
+              src={product.src}
+              className={styles.catProduct__img}
               onClick={() => handleProductClick(product.id)}
-            >
-              {product.title}
-            </div>
-            <div className={styles.catProduct__priceBlock}>
-              <span>От </span>
-              {product.price}
-              <span> ₽</span>
+              alt={product.title}
+            />
+            <div className={styles.catProduct__about}>
+              <section className={styles.catProduct__authorSection}>
+                <img
+                  src={author.photo}
+                  className={styles.catProduct__authorPhoto}
+                  alt={author.name}
+                />
+                <div>{author.name}</div>
+                <Star />
+                <div>{author.rating}</div>
+              </section>
+
+              <div
+                className={styles.catProduct__desc}
+                onClick={() => handleProductClick(product.id)}
+              >
+                {product.title}
+              </div>
+              <div className={styles.catProduct__priceBlock}>
+                <span>От </span>
+                {product.price}
+                <span> ₽</span>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

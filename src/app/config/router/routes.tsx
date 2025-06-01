@@ -1,6 +1,7 @@
 import { RouteObject } from "react-router-dom";
 
 import {
+  AuthorPage,
   CategoryPage,
   // AccountPage,
   HomePage,
@@ -17,14 +18,14 @@ const routes: RouteObject[] = [
     path: "",
     element: <Main />,
     children: [
-      // { path: "", element: <AccountPage /> },
+      { path: "/author/:id", element: <AuthorPage /> },
       { path: "", element: <HomePage /> },
       { path: "profile", element: <UserPage /> },
       { path: "*", element: <NotFound /> },
       { path: "login", element: <LoginPage /> },
       { path: "reg", element: <RegistrationPage /> },
       { path: "following", element: <UserFollowingPage /> },
-      { path: "category/graphic-design", element: <CategoryPage /> },
+      { path: "category/*", element: <CategoryPage /> },
       { path: "/product/:id", element: <ProductPage /> },
     ],
   },

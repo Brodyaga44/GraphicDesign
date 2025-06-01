@@ -77,6 +77,10 @@
   font-size: 1.2rem;
   margin: 0 0 0.3rem 0;
   font-weight: 600;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline 1px solid black;
+  }
 }
 
 .rating {
@@ -89,7 +93,6 @@
 .starIcon {
   width: 16px;
   height: 16px;
-  fill: #ffc107;
 }
 .productMain {
   display: flex;
@@ -210,3 +213,4 @@
     height: 350px;
   }
 }
+

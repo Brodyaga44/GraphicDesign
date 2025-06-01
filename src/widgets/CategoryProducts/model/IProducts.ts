@@ -2,9 +2,8 @@ export interface IProducts {
   id: number;
   title: string;
   src: string;
-  author: string;
+  author_id: number;
   rating: number;
-  author_photo: string;
   price: number;
   style: string;
 }
