@@ -1,20 +1,58 @@
 @import "@/app/styles/utils/variables";
 @import "@/app/styles/utils/media";
 
-.addLogin {
+.form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  &__input {
-    display: flex;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  font-family: $mainfont;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font-size: 14px;
+  transition: 0.2s ease-in-out;
+  background: #fff;
+  color: #111;
+
+  &:hover,
+  &:focus-within {
+    border-color: #444;
   }
-  &__error {
-    font-size: 12px;
-    margin-bottom: 5px;
-    color: $red;
-    height: 8px;
-  }
-  &__logbtn {
-    background-color: $red;
+}
+
+.error {
+  font-size: 12px;
+  color: $red;
+  margin-top: 4px;
+  min-height: 14px;
+}
+
+.submit {
+  display: block;
+  background: #000;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.3rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 320px;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  font-family: $mainfont;
+  text-align: center;
+
+  &:hover {
+    background-color: #888;
   }
 }

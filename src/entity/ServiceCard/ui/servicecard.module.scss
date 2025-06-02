@@ -8,7 +8,9 @@
   min-height: 235px;
   padding: 25px 6px 6px;
   width: 188px;
-  background-color:$lime;
+  background-color: #4d1727; // темный фон вместо $lime
+  color: #eee;
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -18,9 +20,15 @@
     font-size: 18px;
     line-height: 28px;
     margin-left: 10px;
-    color: $white;
+    color: #eee;
   }
   &__image {
     border-radius: 10px;
+    object-fit: contain;
+    max-height: 140px;
+  }
+  &__photo {
+    display: flex;
+    justify-content: center;
   }
 }

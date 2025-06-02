@@ -22,7 +22,7 @@ const NotificationsDrawer = ({
   return (
     <div className={styles.drawer}>
       <Drawer
-        title="Your Notifications"
+        title="Уведомления"
         closeIcon={<Arrow style={{ height: 24 }} />}
         placement="left"
         closable={true}

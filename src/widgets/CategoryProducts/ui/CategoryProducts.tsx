@@ -26,12 +26,14 @@ const CategoryProducts = ({ products }: Props) => {
 
         return (
           <div key={product.id} className={styles.catProduct__container}>
-            <img
-              src={product.src}
-              className={styles.catProduct__img}
-              onClick={() => handleProductClick(product.id)}
-              alt={product.title}
-            />
+            <div className={styles.catProduct__imgWrapper}>
+              <img
+                src={product.src}
+                className={styles.catProduct__img}
+                onClick={() => handleProductClick(product.id)}
+                alt={product.title}
+              />
+            </div>
             <div className={styles.catProduct__about}>
               <section className={styles.catProduct__authorSection}>
                 <img

@@ -3,15 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import styles from "./searchinput.module.scss";
 
-const themes = [
-  { name: "3д Модели", alias: "3d-models" },
-  { name: "Графические рисунки", alias: "graphic-design" },
-  { name: "Логотипы", alias: "logos" },
-  { name: "Дизайн сайта", alias: "web-design" },
-  { name: "Дизайн интерьера", alias: "interior-design" },
-  { name: "Анимации", alias: "animations" },
-  { name: "Дизайн печатной продукции", alias: "print-design" },
-];
+import { themes } from "@/shared/constants/themes.ts";
 
 const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState("");

@@ -5,11 +5,11 @@ import { Input } from "antd";
 
 import styles from "./addLogin.module.scss";
 
-import useAuthContext from "@/app/module/hooks/useAuthContext.ts";
-import { ILogUser } from "@/features/AddLoginForm/module/ILogUser.ts";
-import { loginSchema } from "@/features/AddLoginForm/module/LoginSchema.ts";
-import { CustomButton } from "@/shared";
-import { ILogin } from "@/shared/config/interfaces/AddLoginForm/ILogin.ts";
+import useAuthContext from "@/app/module/hooks/useAuthContext";
+import { ILogUser } from "@/features/AddLoginForm/module/ILogUser";
+import { loginSchema } from "@/features/AddLoginForm/module/LoginSchema";
+import { ILogin } from "@/shared/config/interfaces/AddLoginForm/ILogin";
+
 const AddLoginForm = () => {
   const { login } = useAuthContext();
   const { control, handleSubmit } = useForm<ILogin>({
@@ -18,9 +18,8 @@ const AddLoginForm = () => {
 
   return (
     <form
-      className={styles.addLogin}
+      className={styles.form}
       onSubmit={handleSubmit((data) => {
-        console.log(data);
         const temp: ILogUser = {
           log: data.login,
           pass: data.password,
@@ -28,44 +27,50 @@ const AddLoginForm = () => {
         login?.(temp);
       })}
     >
-      <Controller
-        name="login"
-        control={control}
-        render={({ field, fieldState: { error } }) => (
-          <>
-            <Input
-              size="middle"
-              maxLength={20}
-              placeholder={"Логин"}
-              {...field}
-              className={styles.addLogin__input}
-            />
-            <span className={styles.addLogin__error}>{error?.message}</span>
-          </>
-        )}
-      />
-      <Controller
-        name="password"
-        control={control}
-        render={({ field, fieldState: { error } }) => (
-          <>
-            <Input.Password
-              size="middle"
-              maxLength={20}
-              placeholder={"Пароль"}
-              iconRender={(visible) =>
-                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-              }
-              {...field}
-              className={styles.addLogin__input}
-            />
-            <span className={styles.addLogin__error}>{error?.message}</span>
-          </>
-        )}
-      />
-      <CustomButton type={"submit"} typeBtn="primary">
+      <div className={styles.field}>
+        <Controller
+          name="login"
+          control={control}
+          render={({ field, fieldState: { error } }) => (
+            <>
+              <Input
+                size="middle"
+                maxLength={20}
+                placeholder="Логин"
+                {...field}
+                className={styles.input}
+              />
+              {error && <span className={styles.error}>{error.message}</span>}
+            </>
+          )}
+        />
+      </div>
+
+      <div className={styles.field}>
+        <Controller
+          name="password"
+          control={control}
+          render={({ field, fieldState: { error } }) => (
+            <>
+              <Input.Password
+                size="middle"
+                maxLength={20}
+                placeholder="Пароль"
+                iconRender={(visible) =>
+                  visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                }
+                {...field}
+                className={styles.input}
+              />
+              {error && <span className={styles.error}>{error.message}</span>}
+            </>
+          )}
+        />
+      </div>
+
+      <button type="submit" className={styles.submit}>
         Вход
-      </CustomButton>
+      </button>
     </form>
   );
 };

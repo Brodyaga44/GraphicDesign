@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./eslider.module.scss";
 
 import { ServiceCard } from "@/entity";
-import { servicesMock } from "@/features/ElementsSlider/model/servicesMock.ts";
+import { themes } from "@/shared/constants/themes.ts";
 
 const ElementsSlider = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [showButtons, setShowButtons] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -18,9 +21,9 @@ const ElementsSlider = () => {
       }
     };
 
-    checkScrollable(); // Проверяем при монтировании компонента
+    checkScrollable();
 
-    window.addEventListener("resize", checkScrollable); // Проверяем при изменении размера окна
+    window.addEventListener("resize", checkScrollable);
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
@@ -35,39 +38,51 @@ const ElementsSlider = () => {
       if (container) {
         container.removeEventListener("wheel", handleWheel);
       }
-      window.removeEventListener("resize", checkScrollable); // Убираем слушатель при размонтировании
+      window.removeEventListener("resize", checkScrollable);
     };
   }, []);
 
   const scrollLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -300, behavior: "smooth" }); // Прокрутка влево на 300px
+      containerRef.current.scrollBy({ left: -300, behavior: "smooth" });
     }
   };
 
   const scrollRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 300, behavior: "smooth" }); // Прокрутка вправо на 300px
+      containerRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
 
   return (
     <section className={styles.container}>
       {showButtons && (
-        <button className={styles.scrollButton__left} onClick={scrollLeft}>
-          &lt; {/* Стрелка влево */}
+        <button
+          className={styles.scrollButton__left}
+          onClick={scrollLeft}
+          aria-label="Scroll left"
+        >
+          &lt;
         </button>
       )}
       <div className={styles.scrollableContainer} ref={containerRef}>
-        {servicesMock.map((service) => (
-          <div key={service.id} className={styles.scrollableItem}>
+        {themes.map((service) => (
+          <div
+            key={service.name}
+            className={styles.scrollableItem}
+            onClick={() => navigate(`category/${service.alias}`)}
+          >
             <ServiceCard service={service} />
           </div>
         ))}
       </div>
       {showButtons && (
-        <button className={styles.scrollButton__right} onClick={scrollRight}>
-          &gt; {/* Стрелка вправо */}
+        <button
+          className={styles.scrollButton__right}
+          onClick={scrollRight}
+          aria-label="Scroll right"
+        >
+          &gt;
         </button>
       )}
     </section>

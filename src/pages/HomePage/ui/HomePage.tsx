@@ -28,8 +28,8 @@ const HomePage = () => {
         <div className={styles.home__title}>Создано у нас</div>
         <ImageGrid />
         <JoinInvite />
-        <Footer />
       </main>
+      <Footer />
     </div>
   );
 };

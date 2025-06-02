@@ -1,28 +1,60 @@
 @import "@/app/styles/utils/variables";
 @import "@/app/styles/utils/media";
 
-.login {
-  font: 500 13px $font;
+.container {
   position: fixed;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  width: 100%;
-  gap: 25px;
-  &__logo {
-    font: 500 60px $photogram;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:hover {
-      cursor: pointer;
-    }
+  font: 500 13px $font;
+  background-color: $white;
+  padding: 20px;
+}
+
+.logo {
+  font: 500 60px $photogram;
+  margin-bottom: 40px;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    opacity: 0.8;
   }
-  &__content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 320px;
+  padding: 30px 20px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  background-color: #fff;
+}
+
+.button {
+  display: block;
+  background: #000;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.3rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 320px;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  font-family: $mainfont;
+  text-align: center;
+
+  &:hover {
+    background-color: #888;
   }
 }

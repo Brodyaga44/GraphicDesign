@@ -7,36 +7,70 @@
   gap: 20px;
   padding: 35px 115px;
   font: 500 16px $mainfont;
-  &__info {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-rows: repeat(3, 1fr);
-    gap: 15px;
-  }
+
   &__title {
-    display: flex;
-    font: 500 50px $mainfont;
+    font-weight: 500;
+    font-size: 50px;
     margin: 20px 0;
     padding-left: 5vw;
   }
+
   &__FAQ {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
+    margin-top: 40px;
+    padding: 30px 40px;
     border-top: 1px solid $gray;
-    font: 500 50px $mainfont;
+    background-color: #fafafa;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+
+    h2 {
+      font-weight: 700;
+      font-size: 28px;
+      margin-bottom: 25px;
+      color: black;
+      text-align: center;
+    }
+
+    // Контейнер для FAQ элементов
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+
+    // Если блок с FAQ пустой, стиль для параграфа
+    p {
+      grid-column: 1 / -1;
+      font-size: 18px;
+      color: black;
+      text-align: center;
+      font-weight: 400;
+    }
   }
+
   &__infoElement {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: box-shadow 0.3s ease;
+    }
   }
+
   &__infoTitle {
     font-weight: 600;
+    font-size: 20px;
+    color: black;
   }
+
   &__infoText {
     font-weight: 500;
-    line-height: 25px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: black;
   }
 }

@@ -1,31 +1,242 @@
+// registration.module.scss
 @import "@/app/styles/utils/variables";
 @import "@/app/styles/utils/media";
 
-.reg {
-  font: 500 13px $font;
-  position: fixed;
+.container {
+  max-width: 420px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  color: #111;
+  font-family: $mainfont;
+  user-select: none;
+}
+
+.logo {
+  font-family: $photogram;
+  font-weight: 700;
+  font-size: 3rem;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  color: #000;
+  display: block;
+  user-select: text;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
+  padding: 2rem 2.5rem;
+  transition: width 0.4s ease;
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  overflow: visible;
+  font-family: $mainfont;
+}
+
+/* Ширина при выборе "стать частью команды" */
+.cardWide {
+  max-width: 720px;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 10px;
+}
+
+.tabBtn {
+  flex: 1;
+  background: #f8f8f8;
+  border: 1px solid #333;
+  border-radius: 30px;
+  padding: 0.7rem 0;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+  color: #111;
+}
+
+.tabBtn:hover {
+  background: #e2e2e2;
+}
+
+.active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 0.3);
+}
+
+.formWrapper {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mainForm {
+  flex: 1 1 300px;
+  min-width: 280px;
+}
+
+.sideForm {
+  flex: 1 1 300px;
+  min-width: 280px;
+}
+
+.label {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  gap: 25px;
-  &__logo {
-    font: 500 60px $photogram;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:hover {
-      cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #222;
+}
+
+.input,
+.textarea {
+  margin-top: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid #222;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  font-family: $mainfont;
+  color: #111;
+  background: #fff;
+
+  :global {
+    .ant-input-outlined:hover {
+      border-color: black !important;
+    }
+    .ant-outlined {
+      border-color: unset;
     }
   }
-  &__content {
-    display: flex;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #666;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 8px rgb(0 0 0 / 0.25);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.directionsBlock {
+  margin-top: 1rem;
+}
+
+.checkboxGroup {
+  margin-top: 0.5rem;
+}
+
+.fileInput {
+  margin-top: 0.3rem;
+}
+
+.preview {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.previewImg {
+  max-width: 80px;
+  max-height: 80px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #222;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+  user-select: none;
+}
+
+/* Кнопка очистить */
+.clearBtn {
+  background: black;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+  user-select: none;
+}
+
+.clearBtn:hover {
+  background: #c00;
+}
+
+.buttonsWrapper {
+  width: 100%;
+  margin-bottom: 1.2rem; /* Отступ под кнопкой */
+  display: flex;
+  justify-content: center;
+}
+
+.submitBtn {
+  display: block;
+  background: #000;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.3rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 320px;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  font-family: $mainfont;
+  text-align: center;
+}
+
+.submitBtn:hover {
+  background: #333;
+}
+
+.backLink {
+  display: block;
+  margin: 0 auto 2rem;
+  width: max-content;
+  color: #111;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 600px) {
+  .formWrapper {
     flex-direction: column;
-    gap: 10px;
   }
-  &__back {
-    text-decoration: none;
+
+  .cardWide {
+    max-width: 100%;
   }
 }

@@ -1,7 +1,8 @@
+import Bell from "../../../shared/assets/Icons/Bell.svg?react";
+
 import styles from "./badge.module.scss";
 
-import { NotificationsList } from "@/features/AccountNotifications/ui/interfaces/NotificationsList.ts";
-import Arrow from "@/shared/assets/Icons/arrow.svg?react";
+import { NotificationsList } from "@/features/AccountNotifications/ui/interfaces/NotificationsList";
 
 const Badge = ({
   open,
@@ -13,17 +14,17 @@ const Badge = ({
   const showDrawer = () => {
     setOpen(!open);
   };
+
+  const notificationsCount =
+    NotificationsList.length > 10 ? "10+" : NotificationsList.length;
+
   return (
-    <div className={styles.badge}>
-      <div className={styles.badge__notifyContainer} onClick={showDrawer}>
-        {NotificationsList.length > 10 ? (
-          <span>10+</span>
-        ) : (
-          <span>{NotificationsList.length}</span>
+    <div className={styles.badge} onClick={showDrawer}>
+      <div className={styles.badge__bellWrapper}>
+        <Bell />
+        {NotificationsList.length > 0 && (
+          <span className={styles.badge__count}>{notificationsCount}</span>
         )}
-      </div>
-      <div className={styles.badge__arrow}>
-        <Arrow />
       </div>
     </div>
   );

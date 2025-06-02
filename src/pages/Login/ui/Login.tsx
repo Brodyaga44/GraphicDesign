@@ -3,26 +3,30 @@ import { useNavigate } from "react-router-dom";
 import styles from "./login.module.scss";
 
 import { AddLoginForm } from "@/features";
-import { CustomButton } from "@/shared";
+
 const Login = () => {
   const navigate = useNavigate();
+
   const handleClick = () => {
-    console.log("1");
     navigate("/reg");
   };
+
   const onLogo = () => {
     navigate("/");
   };
+
   return (
-    <div className={styles.login}>
-      <span className={styles.login__logo} onClick={() => onLogo()}>
+    <div className={styles.container}>
+      <span className={styles.logo} onClick={onLogo}>
         Graphico
       </span>
-      <div className={styles.login__content}>
+
+      <div className={styles.card}>
         <AddLoginForm />
-        <CustomButton typeBtn={"secondary"} onClick={() => handleClick()}>
+
+        <button className={styles.button} onClick={handleClick}>
           Регистрация
-        </CustomButton>
+        </button>
       </div>
     </div>
   );

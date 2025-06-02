@@ -7,20 +7,20 @@ import { LogUsers } from "@/features/AddLoginForm/module/LogUsers.ts";
 const useAuth = () => {
   const [user, setUser] = useState<ILogUser | null>(null);
   const navigate = useNavigate();
+
   const login = (data: ILogUser) => {
-    if (
-      LogUsers.some(
-        (userTemp) => userTemp.log === data.log && userTemp.pass === data.pass,
-      )
-    ) {
-      setUser(data);
-      localStorage.setItem("user", JSON.stringify(data));
-      // window.location.href = `http://localhost:5173/`;
+    // Ищем пользователя из списка LogUsers
+    const foundUser = LogUsers.find(
+      (userTemp) => userTemp.log === data.log && userTemp.pass === data.pass,
+    );
+
+    if (foundUser) {
+      setUser(foundUser);
+      localStorage.setItem("user", JSON.stringify(foundUser)); // сохраняем с ролью
       navigate("/");
     } else {
-      console.log("ошибка");
+      console.log("Ошибка: неверный логин или пароль");
     }
-    console.log("V");
   };
 
   const logout = () => {
@@ -29,11 +29,9 @@ const useAuth = () => {
   };
 
   useEffect(() => {
-    if (!user) {
-      const userLsTemp = localStorage.getItem("user");
-      if (userLsTemp) {
-        setUser(JSON.parse(userLsTemp));
-      }
+    const userFromStorage = localStorage.getItem("user");
+    if (userFromStorage) {
+      setUser(JSON.parse(userFromStorage));
     }
   }, []);
 

@@ -3,21 +3,36 @@
 
 .badge {
   display: flex;
-  gap: 6px;
-  &__notifyContainer {
+  cursor: pointer;
+
+  &__bellWrapper {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__count {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    min-width: 16px;
+    height: 16px;
+    background-color: $red;
+    color: $white;
+    font: 400 10px $font;
+    line-height: 16px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 18px;
-    width: 28px;
-    background-color: $red;
-    border-radius: 10px;
-    color: $white;
-    font: 400 12px $font;
-    line-height: 18px;
-    text-align: center;
-  }
-  &__arrow {
-    height: 16px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    pointer-events: none;
   }
 }

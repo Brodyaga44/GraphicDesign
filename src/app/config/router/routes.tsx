@@ -12,7 +12,7 @@ import {
   UserPage,
 } from "@/pages";
 import Main from "@/pages/Main/ui/Main.tsx";
-import ProductPage from "@/pages/ProductPage/ui/ProfuctPage.tsx";
+import ProductPage from "@/pages/ProductPage/ui/ProductPage.tsx";
 const routes: RouteObject[] = [
   {
     path: "",
@@ -25,7 +25,7 @@ const routes: RouteObject[] = [
       { path: "login", element: <LoginPage /> },
       { path: "reg", element: <RegistrationPage /> },
       { path: "following", element: <UserFollowingPage /> },
-      { path: "category/*", element: <CategoryPage /> },
+      { path: "category/:categoryAlias", element: <CategoryPage /> },
       { path: "/product/:id", element: <ProductPage /> },
     ],
   },
