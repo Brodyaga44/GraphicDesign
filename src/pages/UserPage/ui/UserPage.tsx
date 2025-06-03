@@ -1,16 +1,48 @@
 import { useState } from "react";
 import { notification } from "antd";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 import styles from "./userpage.module.scss";
 
+import "swiper/css";
+import "swiper/css/navigation";
 import useAuthContext from "@/app/module/hooks/useAuthContext";
 import WorkStatusDropdown from "@/features/WorkStatusDropdown/ui/WorkStatusDropdown";
+import {
+  applicationsData,
+  IApplication,
+} from "@/pages/UserPage/model/applications.ts";
 import { products } from "@/pages/UserPage/model/products";
 import { usersData } from "@/pages/UserPage/model/usersData";
 import Photo from "@/shared/assets/Icons/DefaultPhoto.svg?react";
 import { Footer } from "@/widgets";
 import ArtistModal from "@/widgets/ArtistModal/ui/ArtistModal.tsx";
 import Header from "@/widgets/Header/ui/Header";
+
+// --- Добавим моки заявок для админа ---
+const adminRequests = [
+  {
+    id: 1,
+    username: "ivanov",
+    name: "Иван Иванов",
+    photo: null,
+    type: "user",
+    email: "ivanov@mail.ru",
+    phone: "+7 900 123-45-67",
+    about: "Хочу зарегистрироваться как пользователь.",
+  },
+  {
+    id: 2,
+    username: "petrova",
+    name: "Мария Петрова",
+    photo: null,
+    type: "artist",
+    email: "petrova@mail.ru",
+    phone: "+7 912 345-67-89",
+    about: "Хочу стать художником на платформе.",
+  },
+];
 
 const UserPage = () => {
   const { user } = useAuthContext();
@@ -20,6 +52,11 @@ const UserPage = () => {
   const [selectedWorkId, setSelectedWorkId] = useState<number | null>(null);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
+
+  // --- Новое состояние для модалки заявки администратора ---
+  const [selectedRequest, setSelectedRequest] = useState<IApplication | null>(
+    null,
+  );
 
   const [editName, setEditName] = useState("");
   const [editAbout, setEditAbout] = useState("");
@@ -40,7 +77,9 @@ const UserPage = () => {
       : [];
 
   const userOrders =
-    currentUser.role !== "artist" && currentUser.orders_id
+    currentUser.role !== "artist" &&
+    currentUser.role !== "admin" &&
+    currentUser.orders_id
       ? currentUser.orders_id.map((id) => products.find((p) => p.id === id))
       : [];
 
@@ -112,6 +151,15 @@ const UserPage = () => {
     });
   };
 
+  // Открыть модалку заявки админа
+  const openRequestModal = (request: (typeof adminRequests)[0]) => {
+    setSelectedRequest(request);
+  };
+  // Закрыть модалку заявки
+  const closeRequestModal = () => {
+    setSelectedRequest(null);
+  };
+
   return (
     <div className={styles.layout}>
       <Header />
@@ -154,59 +202,187 @@ const UserPage = () => {
             </div>
           </div>
 
-          <h3 className={styles.user__subtitle}>
-            {currentUser.role === "artist" ? "Ваши работы" : "Ваши заказы"}
-          </h3>
-
-          <div className={styles.user__orders}>
-            {(currentUser.role === "artist" ? userWorks : userOrders).length ? (
-              (currentUser.role === "artist" ? userWorks : userOrders).map(
-                (item) =>
-                  item && (
-                    <div key={item.id} className={styles.user__order}>
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className={styles.user__orderImage}
-                      />
-                      <div className={styles.user__orderInfo}>
-                        <div className={styles.user__orderTitle}>
-                          {item.title}
-                        </div>
-                        <div className={styles.user__orderStatus}>
-                          Статус:{" "}
-                          {currentUser.role === "artist" ? (
-                            <WorkStatusDropdown
-                              workId={item.id}
-                              currentStatus={item.status}
-                            />
-                          ) : (
-                            item.status
-                          )}
-                        </div>
-                        {item.status === "Готов" && (
-                          <button
-                            className={styles.user__reviewButton}
-                            onClick={() => handleLeaveReview(item.id)}
-                          >
-                            Оставить отзыв
-                          </button>
+          {/* --- Вставляем новый блок для админа --- */}
+          {currentUser.role === "admin" && (
+            <>
+              <h3 className={styles.user__subtitle}>Заявки на регистрацию</h3>
+              <div className={styles.adminRequestsList}>
+                {applicationsData.length ? (
+                  applicationsData.map((req) => (
+                    <div key={req.id} className={styles.adminRequestItem}>
+                      <div className={styles.adminRequestInfo}>
+                        {req.photo ? (
+                          <img
+                            src={req.photo}
+                            alt={req.name}
+                            className={styles.adminRequestPhoto}
+                          />
+                        ) : (
+                          <Photo className={styles.adminRequestPhoto} />
                         )}
+                        <div>
+                          <div>
+                            <b>{req.name}</b> ({req.role})
+                          </div>
+                        </div>
                       </div>
+                      <button
+                        className={styles.adminRequestButton}
+                        onClick={() => setSelectedRequest(req)}
+                      >
+                        Подробнее
+                      </button>
                     </div>
-                  ),
-              )
-            ) : (
-              <div className={styles.user__empty}>
-                {currentUser.role === "artist"
-                  ? "У вас пока нет работ"
-                  : "У вас пока нет заказов"}
+                  ))
+                ) : (
+                  <div>Заявок нет</div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
+
+          {/* Показывать "Ваши работы" или "Ваши заказы", только если роль не админ */}
+          {currentUser.role !== "admin" && (
+            <div>
+              <h3 className={styles.user__subtitle}>
+                {currentUser.role === "artist" ? "Ваши работы" : "Ваши заказы"}
+              </h3>
+
+              <div className={styles.user__orders}>
+                {(currentUser.role === "artist" ? userWorks : userOrders)
+                  .length ? (
+                  (currentUser.role === "artist" ? userWorks : userOrders).map(
+                    (item) =>
+                      item ? (
+                        <div key={item.id} className={styles.user__order}>
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className={styles.user__orderImage}
+                          />
+                          <div className={styles.user__orderInfo}>
+                            <div className={styles.user__orderTitle}>
+                              {item.title}
+                            </div>
+                            <div className={styles.user__orderStatus}>
+                              Статус:{" "}
+                              {currentUser.role === "artist" ? (
+                                <WorkStatusDropdown
+                                  workId={item.id}
+                                  currentStatus={item.status}
+                                />
+                              ) : (
+                                item.status
+                              )}
+                            </div>
+                            {item.status === "Готов" && (
+                              <button
+                                className={styles.user__reviewButton}
+                                onClick={() => handleLeaveReview(item.id)}
+                              >
+                                Оставить отзыв
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      ) : null,
+                  )
+                ) : (
+                  <div className={styles.user__empty}>
+                    {currentUser.role === "artist"
+                      ? "У вас пока нет работ"
+                      : "У вас пока нет заказов"}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </main>
       <Footer />
+      {/* Модалка заявки администратора */}
+      {selectedRequest && (
+        <div className={styles.modalBackdrop}>
+          <div className={styles.modal}>
+            <button className={styles.modal__close} onClick={closeRequestModal}>
+              ✕
+            </button>
+            <h3>Детали заявки</h3>
+            {/*{selectedRequest.photo ? (*/}
+            {/*  <img*/}
+            {/*    src={selectedRequest.photo}*/}
+            {/*    alt={selectedRequest.name}*/}
+            {/*    className={styles.modal__photoPreview}*/}
+            {/*  />*/}
+            {/*) : (*/}
+            {/*  <Photo className={styles.modal__photoPreview} />*/}
+            {/*)}*/}
+            <p>
+              <b>Имя:</b> {selectedRequest.name}
+            </p>
+            <p>
+              <b>Тип:</b> {selectedRequest.role}
+            </p>
+            {selectedRequest.about && (
+              <p>
+                <b>О себе:</b> {selectedRequest.about}
+              </p>
+            )}
+            {selectedRequest.skills && (
+              <p>
+                <b>Навыки:</b> {selectedRequest.skills}
+              </p>
+            )}
+            {selectedRequest.directions?.length && (
+              <p>
+                <b>Направления:</b> {selectedRequest.directions.join(", ")}
+              </p>
+            )}
+            {selectedRequest.works?.length > 0 && (
+              <div>
+                <b>Примеры работ:</b>
+                <Swiper
+                  modules={[Navigation]}
+                  navigation
+                  spaceBetween={10}
+                  slidesPerView={1}
+                  className={styles.worksSwiper}
+                >
+                  {selectedRequest.works.map((url, i) => (
+                    <SwiperSlide key={i}>
+                      <img
+                        src={url}
+                        alt={`Работа ${i + 1}`}
+                        className={styles.worksImage}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            )}
+            <div className={styles.modalButtons}>
+              <button
+                className={styles.acceptButton}
+                onClick={() => {
+                  notification.success({ message: "Пользователь добавлен" });
+                  closeRequestModal();
+                }}
+              >
+                Принять
+              </button>
+              <button
+                className={styles.rejectButton}
+                onClick={() => {
+                  notification.error({ message: "Пользователь отклонен" });
+                  closeRequestModal();
+                }}
+              >
+                Отклонить
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Модалка отзыва */}
       {isReviewModalOpen && (
@@ -222,36 +398,34 @@ const UserPage = () => {
             <h3>Оставить отзыв</h3>
             <textarea
               className={styles.modal__textarea}
-              placeholder="Отзыв..."
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
+              placeholder="Ваш отзыв"
             />
-            <div className={styles.modal__stars}>
-              {[1, 2, 3, 4, 5].map((i) => (
-                <span
-                  key={i}
-                  className={`${styles.star} ${
-                    i <= rating ? styles.active : ""
-                  }`}
-                  onClick={() => setRating(i)}
-                  role="button"
-                  aria-label={`Рейтинг ${i} звезд`}
-                >
-                  ★
-                </span>
-              ))}
+            <div>
+              <label>Рейтинг: </label>
+              <select
+                value={rating}
+                onChange={(e) => setRating(Number(e.target.value))}
+              >
+                <option value={0}>Выберите рейтинг</option>
+                {[1, 2, 3, 4, 5].map((r) => (
+                  <option key={r} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
             </div>
             <button
               className={styles.modal__submit}
               onClick={handleSubmitReview}
               disabled={!reviewText || rating === 0}
             >
-              Оставить отзыв
+              Отправить
             </button>
           </div>
         </div>
       )}
-
       {/* Модалка редактирования профиля */}
       {isEditModalOpen && (
         <div className={styles.modalBackdrop}>
@@ -317,15 +491,12 @@ const UserPage = () => {
           </div>
         </div>
       )}
-
       {/* Модалка добавления работы */}
       {isAddWorkModalOpen && (
-        <div className={styles.modalBackdrop}>
-          <div className={styles.modal}>
-            {/* Крестик закрытия передаем в ArtistModal через onClose */}
-            <ArtistModal onClose={() => setAddWorkModalOpen(false)} />
-          </div>
-        </div>
+        <ArtistModal
+          onClose={() => setAddWorkModalOpen(false)}
+          currentUser={currentUser}
+        />
       )}
     </div>
   );
