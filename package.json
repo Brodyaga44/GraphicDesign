@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite && json-server --watch db.json",
+    "dev-server": "json-server --watch db.json",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -13,7 +14,9 @@
     "@hookform/resolvers": "^3.9.0",
     "@types/web": "^0.0.159",
     "antd": "^5.20.5",
+    "axios": "^1.9.0",
     "clsx": "^2.1.1",
+    "json-server": "^1.0.0-beta.3",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-hook-form": "^7.53.0",

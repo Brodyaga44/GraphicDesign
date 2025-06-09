@@ -218,7 +218,9 @@ const UserPage = () => {
                             className={styles.adminRequestPhoto}
                           />
                         ) : (
-                          <Photo className={styles.adminRequestPhoto} />
+                          <div className={styles.reviewAvatar}>
+                            {req.name?.charAt(0).toUpperCase()}
+                          </div>
                         )}
                         <div>
                           <div>

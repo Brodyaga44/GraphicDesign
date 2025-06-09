@@ -12,6 +12,7 @@ const RegForm = () => {
   const { control, handleSubmit } = useForm<ILogin>({
     resolver: yupResolver(loginSchema),
   });
+
   return (
     <form
       className={styles.addReg}

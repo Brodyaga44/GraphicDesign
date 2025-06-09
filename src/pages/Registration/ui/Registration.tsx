@@ -6,12 +6,12 @@ import { Checkbox, Input } from "antd";
 
 import styles from "./registration.module.scss";
 
+import useRegistration from "@/pages/Registration/libs/hooks/useRegistration.ts";
 import { themes } from "@/shared/constants/themes.ts";
 
 const Registration = () => {
   const [mode, setMode] = useState<"user" | "team">("user");
   const navigate = useNavigate();
-
   const [form, setForm] = useState({
     login: "",
     password: "",
@@ -21,6 +21,8 @@ const Registration = () => {
     directions: [] as string[],
     works: [] as File[],
   });
+
+  const { regReq } = useRegistration;
 
   const onLogo = () => {
     navigate("/");
@@ -56,6 +58,8 @@ const Registration = () => {
     } else {
       console.log("Заявка в команду", form);
     }
+    regReq(form);
+    console.log(form);
   };
 
   return (
