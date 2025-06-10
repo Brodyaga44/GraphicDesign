@@ -1,6 +1,133 @@
 {
-  "posts": [{ "id": 1, "title": "json-server", "author": "typicode" }],
-  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
-  "profile": { "name": "typicode" },
-  "users" : {}
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "users": [
+    {
+      "id": "3507",
+      "login": "",
+      "password": "",
+      "name": "asdadsadsadsasd",
+      "about": "asasdadsdasasd",
+      "skills": "",
+      "directions": [],
+      "works": []
+    },
+    {
+      "id": "2e61",
+      "login": "Asdfsdfsdf12312",
+      "password": "23423423423412341234",
+      "name": "sdfsdfsdf",
+      "about": "sdfsdfsdf",
+      "skills": "",
+      "directions": [],
+      "works": [],
+      "": "admin123451231231231"
+    },
+    {
+      "id": "c621",
+      "login": "Asdfsdfsdf12312",
+      "password": {},
+      "name": "sdfsdfsdf",
+      "about": "sdfsdfsdf",
+      "skills": "",
+      "directions": [],
+      "works": [],
+      "": "admin123451231231231"
+    },
+    {
+      "id": "b2a3",
+      "login": "Asdfsdfsdf12312312",
+      "password": {},
+      "name": "23423423wderwerwer",
+      "about": "sdfsdfsdf",
+      "skills": "",
+      "directions": [],
+      "works": []
+    },
+    {
+      "id": "4dd8",
+      "login": "Asdfsdfsdf12312312",
+      "password": "e3843012854ee9eb7c27b6caaa91789dbba3bdcc2d3a76bfb0057a744f9a994d",
+      "name": "23423423wderwerwer",
+      "about": "sdfsdfsdf",
+      "skills": "",
+      "directions": [],
+      "works": []
+    },
+    {
+      "id": "b0c8",
+      "login": "никита",
+      "password": "41e5653fc7aeb894026d6bb7b2db7f65902b454945fa8fd65a6327047b5277fb",
+      "name": "Олег",
+      "about": "Влад",
+      "skills": "",
+      "directions": [],
+      "works": []
+    },
+    {
+      "id": "7a58",
+      "login": "Admin123123",
+      "password": "800890223a37943927a320c5963d040ac02b3b6bbdebe5325ba3ead47161ff54",
+      "name": "123123",
+      "about": "admin",
+      "skills": "",
+      "directions": [],
+      "works": []
+    },
+    {
+      "id": "cf31",
+      "login": "admin1",
+      "password": "41e5653fc7aeb894026d6bb7b2db7f65902b454945fa8fd65a6327047b5277fb",
+      "name": "asd",
+      "about": "asd",
+      "skills": "",
+      "directions": [],
+      "works": []
+    },
+    {
+      "id": "46d1",
+      "login": "AAA123123",
+      "password": "41e5653fc7aeb894026d6bb7b2db7f65902b454945fa8fd65a6327047b5277fb",
+      "name": "ZZZ",
+      "about": "VVVV",
+      "skills": "",
+      "directions": [],
+      "works": []
+    },
+    {
+      "id": "3e02",
+      "login": "Admin123123qwerqwer",
+      "password": "d3b546e25718c6082e2eae24408af270722b506169bd103ee1c33e790ce06a34",
+      "name": "12qwerqwerqwer",
+      "about": "qwerqwerqwer",
+      "skills": "",
+      "directions": [],
+      "works": []
+    },
+    {
+      "id": "0d30",
+      "login": "admen123",
+      "password": "5c8804c0e5381e3c3c9a4106e0a389b85e80ca33edf88093bad310c9860bc699",
+      "name": "Admen123",
+      "about": "admen123",
+      "skills": "",
+      "directions": [],
+      "works": []
+    }
+  ]
 }

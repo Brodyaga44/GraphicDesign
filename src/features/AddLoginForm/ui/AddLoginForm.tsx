@@ -8,6 +8,7 @@ import styles from "./addLogin.module.scss";
 import useAuthContext from "@/app/module/hooks/useAuthContext";
 import { ILogUser } from "@/features/AddLoginForm/module/ILogUser";
 import { loginSchema } from "@/features/AddLoginForm/module/LoginSchema";
+import useLogin from "@/pages/Login/model/libs/hooks/useLogin.ts";
 import { ILogin } from "@/shared/config/interfaces/AddLoginForm/ILogin";
 
 const AddLoginForm = () => {
@@ -15,16 +16,14 @@ const AddLoginForm = () => {
   const { control, handleSubmit } = useForm<ILogin>({
     resolver: yupResolver(loginSchema),
   });
+  const { LogReq } = useLogin();
 
   return (
     <form
       className={styles.form}
       onSubmit={handleSubmit((data) => {
-        const temp: ILogUser = {
-          log: data.login,
-          pass: data.password,
-        };
-        login?.(temp);
+        LogReq({ password: data.password, login: data.login });
+        console.log(data);
       })}
     >
       <div className={styles.field}>

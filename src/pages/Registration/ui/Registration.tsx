@@ -93,8 +93,11 @@ const Registration = () => {
             <label className={styles.label}>
               Логин
               <Input
+                name="login"
+                value={form.login}
                 size="middle"
                 maxLength={20}
+                onChange={onChange}
                 placeholder="Логин"
                 className={styles.input}
               />
@@ -104,7 +107,10 @@ const Registration = () => {
               Пароль
               <Input.Password
                 size="middle"
+                name="password"
+                value={form.password}
                 maxLength={20}
+                onInput={(e) => onChange(e)}
                 placeholder="Пароль"
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
