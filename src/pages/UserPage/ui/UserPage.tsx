@@ -62,7 +62,12 @@ const UserPage = () => {
   const [editAbout, setEditAbout] = useState("");
   const [editPhoto, setEditPhoto] = useState<File | null>(null);
   const [editPhotoPreview, setEditPhotoPreview] = useState<string | null>(null);
-
+  // Функция проверки на запрещенные слова
+  const containsForbiddenWords = (text: string): boolean => {
+    const forbiddenWords = ["fiverr", "freelancer"]; // можно добавить другие слова
+    const lowerText = text.toLowerCase();
+    return forbiddenWords.some((word) => lowerText.includes(word));
+  };
   if (!user) return null;
 
   const currentUser = usersData.find(
@@ -418,10 +423,22 @@ const UserPage = () => {
                 ))}
               </select>
             </div>
+
+            {/* Проверка на запрещенные слова */}
+            {containsForbiddenWords(reviewText) && (
+              <div className={styles.errorMessage}>
+                Ваша рецензия содержит неподобающие слова
+              </div>
+            )}
+
             <button
               className={styles.modal__submit}
               onClick={handleSubmitReview}
-              disabled={!reviewText || rating === 0}
+              disabled={
+                !reviewText ||
+                rating === 0 ||
+                containsForbiddenWords(reviewText)
+              }
             >
               Отправить
             </button>
