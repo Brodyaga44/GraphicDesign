@@ -13,4 +13,8 @@ export const dropdownItems: IDropdownItems[] = [
     key: "3",
     title: "Аниме",
   },
+  {
+    key: "3",
+    title: "3d", //TODO фильтры
+  },
 ];

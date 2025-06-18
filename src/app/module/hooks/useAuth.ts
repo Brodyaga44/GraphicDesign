@@ -1,23 +1,30 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { AxiosResponse } from "axios";
 
 import { ILogUser } from "@/features/AddLoginForm/module/ILogUser.ts";
-import { LogUsers } from "@/features/AddLoginForm/module/LogUsers.ts";
+import { $api } from "@/shared/config/api/api.ts";
+import { ILoginOutput, IUserData } from "@/shared/config/api/ILoginOutput.ts";
 
 const useAuth = () => {
-  const [user, setUser] = useState<ILogUser | null>(null);
-  const navigate = useNavigate();
+  const [user, setUser] = useState<IUserData | null>(null);
 
-  const login = (data: ILogUser) => {
-    // Ищем пользователя из списка LogUsers
-    const foundUser = LogUsers.find(
-      (userTemp) => userTemp.log === data.log && userTemp.pass === data.pass,
-    );
+  const login = async (data: ILogUser) => {
+    const res: AxiosResponse<ILoginOutput> = await $api.post("/auth/auth", {
+      payload: data.log,
+      password: data.pass,
+    });
 
-    if (foundUser) {
-      setUser(foundUser);
-      localStorage.setItem("user", JSON.stringify(foundUser)); // сохраняем с ролью
-      navigate("/");
+    const userData: AxiosResponse<IUserData> = await $api.get("/user/me", {
+      headers: {
+        Authorization: `Bearer ${res.data.token}`,
+      },
+    });
+
+    if (res.data && userData.data) {
+      setUser(userData.data);
+      localStorage.setItem("user", JSON.stringify(userData.data));
+      localStorage.setItem("role", userData.data.roles[0].name);
+      localStorage.setItem("token", res.data.token);
     } else {
       console.log("Ошибка: неверный логин или пароль");
     }
@@ -25,6 +32,8 @@ const useAuth = () => {
 
   const logout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    localStorage.removeItem("token");
     setUser(null);
   };
 

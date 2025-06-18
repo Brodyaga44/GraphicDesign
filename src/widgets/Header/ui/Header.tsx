@@ -6,7 +6,6 @@ import styles from "./header.module.scss";
 import useAuth from "@/app/module/hooks/useAuth.ts";
 import useAuthContext from "@/app/module/hooks/useAuthContext.ts";
 import { Badge, SearchInput, UserDropdown } from "@/features";
-import { usersData } from "@/pages/UserPage/model/usersData.ts";
 import Photo from "@/shared/assets/Icons/DefaultPhoto.svg?react";
 import { NotificationsDrawer } from "@/widgets";
 
@@ -42,11 +41,6 @@ const Header = () => {
 
   const { user } = useAuthContext();
 
-  // Ищем пользователя по user.log (username) в нижнем регистре
-  const currentUser = user
-    ? usersData.find((u) => u.username.toLowerCase() === user.log.toLowerCase())
-    : null;
-
   return (
     <header className={styles.header}>
       <div className={styles.header__content}>
@@ -69,16 +63,7 @@ const Header = () => {
                 profileButton={<div onClick={goToProfile}>Профиль</div>}
               >
                 <div>
-                  {currentUser && currentUser.photo ? (
-                    <img
-                      src={currentUser.photo}
-                      alt={currentUser.name || "user photo"}
-                      className={styles.userPhoto}
-                      style={{ width: 32, height: 32, borderRadius: "50%" }}
-                    />
-                  ) : (
-                    <Photo />
-                  )}
+                  <Photo />
                 </div>
               </UserDropdown>
               <NotificationsDrawer open={open} setOpen={setOpen} />

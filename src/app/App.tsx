@@ -5,9 +5,17 @@ import routes from "./config/router/routes.tsx";
 
 import "./styles/index.scss";
 
+import useInterceptor from "@/app/module/hooks/useInterceptor.ts";
+import AuthProvider from "@/app/module/providers/AuthProvider.tsx";
+
 const App = (): ReactElement => {
   const router = createBrowserRouter(routes);
-  return <RouterProvider router={router} />;
+  useInterceptor();
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 };
 
 export default App;

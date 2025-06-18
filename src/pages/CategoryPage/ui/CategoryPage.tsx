@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import styles from "./categorypage.module.scss";
 
 import { ProductFilters } from "@/features/ProfuctFilters/ui/ProductFilters.tsx";
+import { useGetCategory } from "@/pages/CategoryPage/model/hooks/useGetCategory.ts";
+import { ICategoryData } from "@/pages/CategoryPage/ui/interfaces/ICategoryItems.ts";
 import { CategoryProducts, Footer } from "@/widgets";
 import { categories } from "@/widgets/CategoryProducts/model/categories.ts";
 import { IProducts } from "@/widgets/CategoryProducts/model/IProducts.ts";
@@ -14,19 +16,15 @@ const CategoryPage = () => {
   const { categoryAlias } = useParams<{ categoryAlias: string }>();
 
   const [category, setCategory] = useState(categories[0]);
-  const [allProducts, setAllProducts] = useState<IProducts[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<IProducts[]>([]);
 
   useEffect(() => {
     const foundCategory = categories.find((c) => c.alias === categoryAlias);
 
     if (foundCategory) {
-      const newProducts = productsMock.filter(
-        (p) => p.category_id === foundCategory.id,
-      );
+      const newProducts = Array.isArray(currCategoryItems)
+        ? currCategoryItems.filter((p) => p.category === foundCategory.alias)
+        : [];
       setCategory(foundCategory);
-      setAllProducts(newProducts);
-      setFilteredProducts(newProducts);
     } else {
       setCategory({
         id: -1,
@@ -34,10 +32,11 @@ const CategoryPage = () => {
         title: "Категория не найдена",
         faq: [],
       });
-      setAllProducts([]);
-      setFilteredProducts([]);
     }
   }, [categoryAlias]);
+
+  const { currCategoryItems, setCurrCategoryItems, getCategory } =
+    useGetCategory(categoryAlias!);
 
   return (
     <div>
@@ -46,11 +45,12 @@ const CategoryPage = () => {
         <h1 className={styles.cat__title}>{category.title}</h1>
 
         <ProductFilters
-          products={allProducts} // передаём полную копию для фильтрации
-          onFilter={setFilteredProducts}
+          products={currCategoryItems} // передаём полную копию для фильтрации
+          onFilter={setCurrCategoryItems}
+          getCategory={getCategory}
         />
 
-        <CategoryProducts products={filteredProducts} />
+        <CategoryProducts products={currCategoryItems} />
 
         <h2 className={styles.cat__faqTitle}>
           {category.title}: Частые вопросы

@@ -81,4 +81,14 @@ export const productsMock: IProducts[] = [
     author_id: 7,
     category_id: 0,
   },
+  {
+    id: 7,
+    title: "Дизайн жилой комнаты",
+    src: "https://sun9-55.userapi.com/impg/fPS_QGEFZquRkmSQL3nrk-xx1CJ5y2yhYK62EA/45WZLqwNGPI.jpg?size=330x220&quality=95&sign=6d7e7dc4f9e5ba4b82e43ab3b2787ff0&type=album",
+    rating: 4.7,
+    price: 4000,
+    style: "Модерн",
+    author_id: 0,
+    category_id: 1,
+  },
 ];

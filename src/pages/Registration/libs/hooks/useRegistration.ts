@@ -3,7 +3,7 @@ import { $api } from "@/shared/config/api/api.ts";
 
 const useRegistration = () => {
   const regReq = async (data: IUseRegistration): Promise<void> => {
-    await $api.post("/users", {
+    await $api.post("/auth/register", {
       ...data,
     });
   };
@@ -13,4 +13,4 @@ const useRegistration = () => {
   };
 };
 
-export default useRegistration();
+export default useRegistration;

@@ -1,9 +1,10 @@
 export interface IUseRegistration {
-  login: string;
   password: string;
+  username: string;
   name: string;
+  email: string;
   about: string;
   skills: string;
   directions: string[];
-  works: File[];
+  role: string;
 }

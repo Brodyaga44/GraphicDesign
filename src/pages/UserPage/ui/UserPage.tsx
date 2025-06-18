@@ -9,40 +9,16 @@ import "swiper/css";
 import "swiper/css/navigation";
 import useAuthContext from "@/app/module/hooks/useAuthContext";
 import WorkStatusDropdown from "@/features/WorkStatusDropdown/ui/WorkStatusDropdown";
-import {
-  applicationsData,
-  IApplication,
-} from "@/pages/UserPage/model/applications.ts";
+import { IApplication } from "@/pages/UserPage/model/applications.ts";
+import { useApprove } from "@/pages/UserPage/model/hooks/useApprove.ts";
+import { useBan } from "@/pages/UserPage/model/hooks/useBan.ts";
+import { useGetApplications } from "@/pages/UserPage/model/hooks/useGetApplications.ts";
 import { products } from "@/pages/UserPage/model/products";
-import { usersData } from "@/pages/UserPage/model/usersData";
 import Photo from "@/shared/assets/Icons/DefaultPhoto.svg?react";
+import { ILoginOutput } from "@/shared/config/api/ILoginOutput.ts";
 import { Footer } from "@/widgets";
 import ArtistModal from "@/widgets/ArtistModal/ui/ArtistModal.tsx";
 import Header from "@/widgets/Header/ui/Header";
-
-// --- Добавим моки заявок для админа ---
-const adminRequests = [
-  {
-    id: 1,
-    username: "ivanov",
-    name: "Иван Иванов",
-    photo: null,
-    type: "user",
-    email: "ivanov@mail.ru",
-    phone: "+7 900 123-45-67",
-    about: "Хочу зарегистрироваться как пользователь.",
-  },
-  {
-    id: 2,
-    username: "petrova",
-    name: "Мария Петрова",
-    photo: null,
-    type: "artist",
-    email: "petrova@mail.ru",
-    phone: "+7 912 345-67-89",
-    about: "Хочу стать художником на платформе.",
-  },
-];
 
 const UserPage = () => {
   const { user } = useAuthContext();
@@ -54,7 +30,7 @@ const UserPage = () => {
   const [rating, setRating] = useState(0);
 
   // --- Новое состояние для модалки заявки администратора ---
-  const [selectedRequest, setSelectedRequest] = useState<IApplication | null>(
+  const [selectedRequest, setSelectedRequest] = useState<ILoginOutput | null>(
     null,
   );
 
@@ -62,29 +38,31 @@ const UserPage = () => {
   const [editAbout, setEditAbout] = useState("");
   const [editPhoto, setEditPhoto] = useState<File | null>(null);
   const [editPhotoPreview, setEditPhotoPreview] = useState<string | null>(null);
+
   // Функция проверки на запрещенные слова
   const containsForbiddenWords = (text: string): boolean => {
     const forbiddenWords = ["fiverr", "freelancer"]; // можно добавить другие слова
     const lowerText = text.toLowerCase();
     return forbiddenWords.some((word) => lowerText.includes(word));
   };
+
   if (!user) return null;
 
-  const currentUser = usersData.find(
-    (u) => u.username.toLowerCase() === user.log.toLowerCase(),
-  );
+  const currentUser = user;
+  const userRole = localStorage.getItem("role");
+  const { applications, getApplications, setApplications } =
+    useGetApplications();
+  const [approvedUser, setApprovedUser] = useState<ILoginOutput | null>(null);
 
   if (!currentUser) return <div>Пользователь не найден</div>;
 
   const userWorks =
-    currentUser.role === "artist" && currentUser.works_id
+    userRole === "AUTHOR" && currentUser.works_id
       ? currentUser.works_id.map((id) => products.find((p) => p.id === id))
       : [];
 
   const userOrders =
-    currentUser.role !== "artist" &&
-    currentUser.role !== "admin" &&
-    currentUser.orders_id
+    userRole !== "AUTHOR" && userRole !== "ADMIN" && currentUser.orders_id
       ? currentUser.orders_id.map((id) => products.find((p) => p.id === id))
       : [];
 
@@ -173,9 +151,9 @@ const UserPage = () => {
           <h2 className={styles.user__title}>Профиль</h2>
 
           <div className={styles.user__profile}>
-            {currentUser.photo ? (
+            {currentUser.photoUri ? (
               <img
-                src={currentUser.photo}
+                src={currentUser.photoUri}
                 alt={currentUser.name}
                 className={styles.user__avatar}
               />
@@ -184,7 +162,7 @@ const UserPage = () => {
             )}
 
             <div className={styles.user__profileInfo}>
-              <div className={styles.user__name}>{currentUser.name}</div>
+              <div className={styles.user__name}>{currentUser.username}</div>
               {currentUser.about && (
                 <div className={styles.user__about}>{currentUser.about}</div>
               )}
@@ -195,7 +173,7 @@ const UserPage = () => {
                 >
                   Редактировать профиль
                 </button>
-                {currentUser.role === "artist" && (
+                {userRole === "AUTHOR" && (
                   <button
                     className={styles.user__editButton}
                     onClick={() => setAddWorkModalOpen(true)}
@@ -208,39 +186,41 @@ const UserPage = () => {
           </div>
 
           {/* --- Вставляем новый блок для админа --- */}
-          {currentUser.role === "admin" && (
+          {userRole === "ADMIN" && (
             <>
               <h3 className={styles.user__subtitle}>Заявки на регистрацию</h3>
               <div className={styles.adminRequestsList}>
-                {applicationsData.length ? (
-                  applicationsData.map((req) => (
-                    <div key={req.id} className={styles.adminRequestItem}>
-                      <div className={styles.adminRequestInfo}>
-                        {req.photo ? (
-                          <img
-                            src={req.photo}
-                            alt={req.name}
-                            className={styles.adminRequestPhoto}
-                          />
-                        ) : (
-                          <div className={styles.reviewAvatar}>
-                            {req.name?.charAt(0).toUpperCase()}
-                          </div>
-                        )}
-                        <div>
+                {applications.length ? (
+                  applications
+                    .filter((item) => !item.blocked && !item.approved)
+                    .map((req) => (
+                      <div key={req.id} className={styles.adminRequestItem}>
+                        <div className={styles.adminRequestInfo}>
+                          {req.photoUri ? (
+                            <img
+                              src={req.photoUri}
+                              alt={req.username}
+                              className={styles.adminRequestPhoto}
+                            />
+                          ) : (
+                            <div className={styles.reviewAvatar}>
+                              {req.name?.charAt(0).toUpperCase()}
+                            </div>
+                          )}
                           <div>
-                            <b>{req.name}</b> ({req.role})
+                            <div>
+                              <b>{req.name}</b> ({req.roles[0]?.name})
+                            </div>
                           </div>
                         </div>
+                        <button
+                          className={styles.adminRequestButton}
+                          onClick={() => setSelectedRequest(req)}
+                        >
+                          Подробнее
+                        </button>
                       </div>
-                      <button
-                        className={styles.adminRequestButton}
-                        onClick={() => setSelectedRequest(req)}
-                      >
-                        Подробнее
-                      </button>
-                    </div>
-                  ))
+                    ))
                 ) : (
                   <div>Заявок нет</div>
                 )}
@@ -249,16 +229,15 @@ const UserPage = () => {
           )}
 
           {/* Показывать "Ваши работы" или "Ваши заказы", только если роль не админ */}
-          {currentUser.role !== "admin" && (
+          {userRole !== "ADMIN" && (
             <div>
               <h3 className={styles.user__subtitle}>
-                {currentUser.role === "artist" ? "Ваши работы" : "Ваши заказы"}
+                {userRole === "AUTHOR" ? "Ваши работы" : "Ваши заказы"}
               </h3>
 
               <div className={styles.user__orders}>
-                {(currentUser.role === "artist" ? userWorks : userOrders)
-                  .length ? (
-                  (currentUser.role === "artist" ? userWorks : userOrders).map(
+                {(userRole === "AUTHOR" ? userWorks : userOrders).length ? (
+                  (userRole === "AUTHOR" ? userWorks : userOrders).map(
                     (item) =>
                       item ? (
                         <div key={item.id} className={styles.user__order}>
@@ -273,7 +252,7 @@ const UserPage = () => {
                             </div>
                             <div className={styles.user__orderStatus}>
                               Статус:{" "}
-                              {currentUser.role === "artist" ? (
+                              {userRole === "AUTHOR" ? (
                                 <WorkStatusDropdown
                                   workId={item.id}
                                   currentStatus={item.status}
@@ -296,7 +275,7 @@ const UserPage = () => {
                   )
                 ) : (
                   <div className={styles.user__empty}>
-                    {currentUser.role === "artist"
+                    {userRole === "AUTHOR"
                       ? "У вас пока нет работ"
                       : "У вас пока нет заказов"}
                   </div>
@@ -315,32 +294,23 @@ const UserPage = () => {
               ✕
             </button>
             <h3>Детали заявки</h3>
-            {/*{selectedRequest.photo ? (*/}
-            {/*  <img*/}
-            {/*    src={selectedRequest.photo}*/}
-            {/*    alt={selectedRequest.name}*/}
-            {/*    className={styles.modal__photoPreview}*/}
-            {/*  />*/}
-            {/*) : (*/}
-            {/*  <Photo className={styles.modal__photoPreview} />*/}
-            {/*)}*/}
             <p>
-              <b>Имя:</b> {selectedRequest.name}
+              <b>Имя:</b> {selectedRequest.username}
             </p>
             <p>
-              <b>Тип:</b> {selectedRequest.role}
+              <b>Тип:</b> {selectedRequest.roles[0].name}
             </p>
             {selectedRequest.about && (
               <p>
-                <b>О себе:</b> {selectedRequest.about}
+                <b>О себе:</b> {selectedRequest.approved ? "yes" : "no"}
               </p>
             )}
             {selectedRequest.skills && (
               <p>
-                <b>Навыки:</b> {selectedRequest.skills}
+                <b>Навыки:</b> {selectedRequest.id}
               </p>
             )}
-            {selectedRequest.directions?.length && (
+            {!!selectedRequest.directions?.length && (
               <p>
                 <b>Направления:</b> {selectedRequest.directions.join(", ")}
               </p>
@@ -370,18 +340,26 @@ const UserPage = () => {
             <div className={styles.modalButtons}>
               <button
                 className={styles.acceptButton}
-                onClick={() => {
+                onClick={async () => {
+                  await useApprove(selectedRequest.id);
                   notification.success({ message: "Пользователь добавлен" });
                   closeRequestModal();
+                  setApplications((prev) =>
+                    prev.filter((item) => item.id !== selectedRequest.id),
+                  );
                 }}
               >
                 Принять
               </button>
               <button
                 className={styles.rejectButton}
-                onClick={() => {
+                onClick={async () => {
+                  await useBan(selectedRequest.id);
                   notification.error({ message: "Пользователь отклонен" });
                   closeRequestModal();
+                  setApplications((prev) =>
+                    prev.filter((item) => item.id !== selectedRequest.id),
+                  );
                 }}
               >
                 Отклонить

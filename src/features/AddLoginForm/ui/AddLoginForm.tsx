@@ -1,4 +1,5 @@
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "antd";
@@ -12,6 +13,7 @@ import { ILogin } from "@/shared/config/interfaces/AddLoginForm/ILogin";
 
 const AddLoginForm = () => {
   const { login } = useAuthContext();
+  const navigate = useNavigate();
   const { control, handleSubmit } = useForm<ILogin>({
     resolver: yupResolver(loginSchema),
   });
@@ -19,12 +21,13 @@ const AddLoginForm = () => {
   return (
     <form
       className={styles.form}
-      onSubmit={handleSubmit((data) => {
+      onSubmit={handleSubmit(async (data) => {
         const temp: ILogUser = {
           log: data.login,
           pass: data.password,
         };
-        login?.(temp);
+        await login?.(temp);
+        navigate("/");
       })}
     >
       <div className={styles.field}>

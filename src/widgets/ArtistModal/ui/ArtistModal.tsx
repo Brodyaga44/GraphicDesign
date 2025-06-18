@@ -14,6 +14,7 @@ export const ArtistModal = ({ onClose }: Props) => {
     theme: "",
     style: "",
     price: "",
+    desc: "",
     images: [] as File[],
   });
 
@@ -85,6 +86,13 @@ export const ArtistModal = ({ onClose }: Props) => {
             onChange={handleChange}
             placeholder="Цена"
             type="number"
+            className={styles.input}
+          />
+          <input
+            name="desc"
+            value={form.desc}
+            onChange={handleChange}
+            placeholder="Описание работы"
             className={styles.input}
           />
 

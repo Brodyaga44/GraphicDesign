@@ -12,7 +12,6 @@ import PhotoTab from "@/features/PhotoTab/ui/PhotoTab.tsx";
 import Profile from "@/features/Profile/ui/Profile.tsx";
 import RegForm from "@/features/RegForm/ui/RegForm.tsx";
 import SearchInput from "@/features/SearchInput/ui/SearchInput.tsx";
-import UserActionsSelector from "@/features/UserActionsSelector/ui/UserActionsSelector.tsx";
 import UserDropdown from "@/features/UserDropdown/ui/UserDropdown.tsx";
 import VideoTab from "@/features/VideoTab/ui/VideoTab.tsx";
 export {
@@ -26,7 +25,6 @@ export {
   OtherUserHeader,
   Profile,
   UserDropdown,
-  UserActionsSelector,
   Badge,
   Link,
   ElementsSlider,

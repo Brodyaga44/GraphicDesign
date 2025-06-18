@@ -1,4 +1,3 @@
-// Registration.tsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
@@ -13,16 +12,16 @@ const Registration = () => {
   const [mode, setMode] = useState<"user" | "team">("user");
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    login: "",
+    username: "",
     password: "",
+    email: "",
     name: "",
     about: "",
     skills: "",
     directions: [] as string[],
-    works: [] as File[],
   });
 
-  const { regReq } = useRegistration;
+  const { regReq } = useRegistration();
 
   const onLogo = () => {
     navigate("/");
@@ -39,27 +38,20 @@ const Registration = () => {
     setForm((prev) => ({ ...prev, directions: checkedValues }));
   };
 
-  const onWorksChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    setForm((prev) => ({
-      ...prev,
-      works: [...prev.works, ...Array.from(e.target.files)],
-    }));
-  };
-
-  const onClearWorks = () => {
-    setForm((prev) => ({ ...prev, works: [] }));
-  };
-
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (mode === "user") {
-      console.log("Регистрация пользователя", form);
-    } else {
-      console.log("Заявка в команду", form);
+
+    const payload = {
+      ...form,
+      role: mode === "user" ? "USER" : "AUTHOR",
+    };
+
+    try {
+      await regReq(payload);
+      navigate("/login");
+    } catch (err) {
+      console.error("Ошибка при регистрации:", err);
     }
-    regReq(form);
-    console.log(form);
   };
 
   return (
@@ -73,14 +65,18 @@ const Registration = () => {
       >
         <div className={styles.tabs}>
           <button
-            className={`${styles.tabBtn} ${mode === "user" ? styles.active : ""}`}
+            className={`${styles.tabBtn} ${
+              mode === "user" ? styles.active : ""
+            }`}
             onClick={() => setMode("user")}
             type="button"
           >
             Стать пользователем
           </button>
           <button
-            className={`${styles.tabBtn} ${mode === "team" ? styles.active : ""}`}
+            className={`${styles.tabBtn} ${
+              mode === "team" ? styles.active : ""
+            }`}
             onClick={() => setMode("team")}
             type="button"
           >
@@ -94,9 +90,12 @@ const Registration = () => {
               Логин
               <Input
                 size="middle"
+                name="username"
                 maxLength={20}
                 placeholder="Логин"
                 className={styles.input}
+                value={form.username}
+                onChange={onChange}
               />
             </label>
 
@@ -104,12 +103,29 @@ const Registration = () => {
               Пароль
               <Input.Password
                 size="middle"
+                name="password"
                 maxLength={20}
                 placeholder="Пароль"
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                 }
                 className={styles.input}
+                value={form.password}
+                onChange={onChange}
+              />
+            </label>
+
+            <label className={styles.label}>
+              Email
+              <Input
+                size="middle"
+                name="email"
+                type="email"
+                maxLength={40}
+                placeholder="Email"
+                className={styles.input}
+                value={form.email}
+                onChange={onChange}
               />
             </label>
 
@@ -137,44 +153,6 @@ const Registration = () => {
                 placeholder="Расскажите о себе"
               />
             </label>
-
-            {mode === "team" && (
-              <>
-                <label className={styles.label}>
-                  Примеры работ (загрузить фото)
-                  <input
-                    className={styles.fileInput}
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={onWorksChange}
-                  />
-                </label>
-
-                {form.works.length > 0 && (
-                  <>
-                    <div className={styles.preview}>
-                      {form.works.map((file, i) => (
-                        <img
-                          key={i}
-                          src={URL.createObjectURL(file)}
-                          alt={`preview-${i}`}
-                          className={styles.previewImg}
-                        />
-                      ))}
-                    </div>
-
-                    <button
-                      type="button"
-                      className={styles.clearBtn}
-                      onClick={onClearWorks}
-                    >
-                      Очистить
-                    </button>
-                  </>
-                )}
-              </>
-            )}
           </div>
 
           {mode === "team" && (
@@ -206,7 +184,6 @@ const Registration = () => {
             </aside>
           )}
 
-          {/* Кнопка внутри формы для нормальной работы Enter */}
           <div className={styles.buttonsWrapper}>
             <button className={styles.submitBtn} type="submit">
               {mode === "user" ? "Зарегистрироваться" : "Подать заявку"}

@@ -7,7 +7,11 @@ import { IProductFilters } from "@/features/ProfuctFilters/ui/interfaces/IProduc
 import { dropdownItems } from "@/pages/CategoryPage/ui/interfaces/dropdownItems.ts";
 import { CustomDropdown } from "@/shared";
 
-export const ProductFilters = ({ products, onFilter }: IProductFilters) => {
+export const ProductFilters = ({
+  products,
+  onFilter,
+  getCategory,
+}: IProductFilters) => {
   const [filters, setFilters] = useState({
     style: null as string | null,
     priceMin: null as number | null,
@@ -59,6 +63,7 @@ export const ProductFilters = ({ products, onFilter }: IProductFilters) => {
     } else if (type === "rating") {
       applyFilters({ ...filters, ratingOrder: null });
     }
+    getCategory();
   };
 
   const resetAllFilters = () => {
@@ -69,6 +74,7 @@ export const ProductFilters = ({ products, onFilter }: IProductFilters) => {
       priceMax: null,
       ratingOrder: null,
     });
+    getCategory();
   };
 
   const styleMenuItems = [
