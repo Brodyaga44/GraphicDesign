@@ -1,0 +1,163 @@
+$mainfont: "YourMainFont", sans-serif;
+$user-white: #fff;
+$user-black: #000;
+$user-gray: #e0e0e0;
+
+.modal__textarea,
+.modal__input {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid $user-gray;
+  font-family: $mainfont;
+  font-size: 1rem;
+  color: $user-black;
+  background-color: $user-white;
+  resize: none;
+  box-sizing: border-box;
+
+  &__error {
+    border: 1px solid red !important;
+  }
+}
+
+.modal__textarea {
+  height: 150px;
+  margin-bottom: 12px;
+}
+
+.modal__stars {
+  margin-bottom: 16px;
+  font-size: 22px;
+  user-select: none;
+
+  .star {
+    cursor: pointer;
+    transition: 0.2s;
+    color: #ccc;
+
+    &.active {
+      color: $user-black;
+    }
+  }
+}
+
+.modal__submit {
+  width: 100%;
+  padding: 10px 14px;
+  background-color: $user-black;
+  color: $user-white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #111;
+  }
+}
+.modal__photoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.modal__photoPreview {
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.modal__photoPlaceholder {
+  width: 120px;
+  height: 120px;
+  background-color: #f0f0f0;
+  border: 1px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #888;
+}
+.modal__photoWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.modal__removePhotoBtn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff4d4f;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  user-select: none;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: #d9363e;
+  }
+}
+.modal__photoWrapper {
+  position: relative;
+  display: inline-block; // чтобы ширина и высота под размер картинки
+  max-width: 120px; // ограничиваем максимально размеры под картинку
+  max-height: 120px;
+}
+
+.modal__photoPreview {
+  display: block; // убрать нижние отступы у img
+  width: 100%; // картинка занимает весь размер родителя
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.modal__removePhotoBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  user-select: none;
+  transition: background-color 0.2s ease;
+  z-index: 10;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}

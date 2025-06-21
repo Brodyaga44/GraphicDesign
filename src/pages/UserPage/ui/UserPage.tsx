@@ -8,20 +8,25 @@ import styles from "./userpage.module.scss";
 import "swiper/css";
 import "swiper/css/navigation";
 import useAuthContext from "@/app/module/hooks/useAuthContext";
+import { EditUserModal } from "@/features";
 import WorkStatusDropdown from "@/features/WorkStatusDropdown/ui/WorkStatusDropdown";
-import { IApplication } from "@/pages/UserPage/model/applications.ts";
 import { useApprove } from "@/pages/UserPage/model/hooks/useApprove.ts";
 import { useBan } from "@/pages/UserPage/model/hooks/useBan.ts";
 import { useGetApplications } from "@/pages/UserPage/model/hooks/useGetApplications.ts";
-import { products } from "@/pages/UserPage/model/products";
 import Photo from "@/shared/assets/Icons/DefaultPhoto.svg?react";
-import { ILoginOutput } from "@/shared/config/api/ILoginOutput.ts";
+import type { ILoginOutput } from "@/shared/config/api/ILoginOutput.ts";
 import { Footer } from "@/widgets";
 import ArtistModal from "@/widgets/ArtistModal/ui/ArtistModal.tsx";
 import Header from "@/widgets/Header/ui/Header";
 
+const userWorks = [
+  { id: 1, image: "image", title: "product", status: "in work" },
+];
+const userOrders = userWorks;
+
 const UserPage = () => {
   const { user } = useAuthContext();
+  console.log(user);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isAddWorkModalOpen, setAddWorkModalOpen] = useState(false);
@@ -34,11 +39,6 @@ const UserPage = () => {
     null,
   );
 
-  const [editName, setEditName] = useState("");
-  const [editAbout, setEditAbout] = useState("");
-  const [editPhoto, setEditPhoto] = useState<File | null>(null);
-  const [editPhotoPreview, setEditPhotoPreview] = useState<string | null>(null);
-
   // Функция проверки на запрещенные слова
   const containsForbiddenWords = (text: string): boolean => {
     const forbiddenWords = ["fiverr", "freelancer"]; // можно добавить другие слова
@@ -48,23 +48,21 @@ const UserPage = () => {
 
   if (!user) return null;
 
-  const currentUser = user;
   const userRole = localStorage.getItem("role");
-  const { applications, getApplications, setApplications } =
-    useGetApplications();
-  const [approvedUser, setApprovedUser] = useState<ILoginOutput | null>(null);
+  const { applications, setApplications } = useGetApplications();
+  // const [approvedUser, setApprovedUser] = useState<ILoginOutput | null>(null);
 
-  if (!currentUser) return <div>Пользователь не найден</div>;
+  if (!user) return <div>Пользователь не найден</div>;
 
-  const userWorks =
-    userRole === "AUTHOR" && currentUser.works_id
-      ? currentUser.works_id.map((id) => products.find((p) => p.id === id))
-      : [];
+  // const userWorks =
+  //   userRole === "AUTHOR" && user.works_id
+  //     ? user.works_id.map((id) => products.find((p) => p.id === id))
+  //     : [];
 
-  const userOrders =
-    userRole !== "AUTHOR" && userRole !== "ADMIN" && currentUser.orders_id
-      ? currentUser.orders_id.map((id) => products.find((p) => p.id === id))
-      : [];
+  // const userOrders =
+  //   userRole !== "AUTHOR" && userRole !== "ADMIN" && user.orders_id
+  //     ? user.orders_id.map((id) => products.find((p) => p.id === id))
+  //     : [];
 
   // Открыть модалку отзыва
   const handleLeaveReview = (workId: number) => {
@@ -94,50 +92,11 @@ const UserPage = () => {
     }
   };
 
-  // Изменение фото профиля (выбор файла)
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setEditPhoto(file);
-      setEditPhotoPreview(URL.createObjectURL(file));
-    }
-  };
-
-  // Удалить выбранное фото
-  const handleRemovePhoto = () => {
-    setEditPhoto(null);
-    setEditPhotoPreview(null);
-  };
-
-  // Открыть модалку редактирования профиля
-  const handleEditOpen = () => {
-    setEditName(currentUser.name || "");
-    setEditAbout(currentUser.about || "");
-    setEditPhoto(null);
-    setEditPhotoPreview(currentUser.photo || null);
-    setEditModalOpen(true);
-  };
-
-  // Сохранить изменения профиля
-  const handleEditSubmit = () => {
-    console.log({
-      name: editName,
-      about: editAbout,
-      photo: editPhoto,
-    });
-    setEditModalOpen(false);
-
-    notification.success({
-      message: "Профиль обновлён",
-      description: "Изменения успешно сохранены.",
-      placement: "topRight",
-    });
-  };
-
   // Открыть модалку заявки админа
-  const openRequestModal = (request: (typeof adminRequests)[0]) => {
-    setSelectedRequest(request);
-  };
+  // const openRequestModal = (request: (typeof adminRequests)[0]) => {
+  //   setSelectedRequest(request);
+  // };
+
   // Закрыть модалку заявки
   const closeRequestModal = () => {
     setSelectedRequest(null);
@@ -151,10 +110,10 @@ const UserPage = () => {
           <h2 className={styles.user__title}>Профиль</h2>
 
           <div className={styles.user__profile}>
-            {currentUser.photoUri ? (
+            {user.photoUri ? (
               <img
-                src={currentUser.photoUri}
-                alt={currentUser.name}
+                src={user.photoUri}
+                alt={user.name}
                 className={styles.user__avatar}
               />
             ) : (
@@ -162,19 +121,21 @@ const UserPage = () => {
             )}
 
             <div className={styles.user__profileInfo}>
-              <div className={styles.user__name}>{currentUser.username}</div>
-              {currentUser.about && (
-                <div className={styles.user__about}>{currentUser.about}</div>
+              <div className={styles.user__name}>{user.username}</div>
+              {user.about && (
+                <div className={styles.user__about}>{user.about}</div>
               )}
               <div className={styles.btn__wrapper}>
                 <button
+                  type="button"
                   className={styles.user__editButton}
-                  onClick={handleEditOpen}
+                  onClick={() => setEditModalOpen(true)}
                 >
                   Редактировать профиль
                 </button>
                 {userRole === "AUTHOR" && (
                   <button
+                    type="button"
                     className={styles.user__editButton}
                     onClick={() => setAddWorkModalOpen(true)}
                   >
@@ -214,6 +175,7 @@ const UserPage = () => {
                           </div>
                         </div>
                         <button
+                          type="button"
                           className={styles.adminRequestButton}
                           onClick={() => setSelectedRequest(req)}
                         >
@@ -263,6 +225,7 @@ const UserPage = () => {
                             </div>
                             {item.status === "Готов" && (
                               <button
+                                type="button"
                                 className={styles.user__reviewButton}
                                 onClick={() => handleLeaveReview(item.id)}
                               >
@@ -290,7 +253,11 @@ const UserPage = () => {
       {selectedRequest && (
         <div className={styles.modalBackdrop}>
           <div className={styles.modal}>
-            <button className={styles.modal__close} onClick={closeRequestModal}>
+            <button
+              type="button"
+              className={styles.modal__close}
+              onClick={closeRequestModal}
+            >
               ✕
             </button>
             <h3>Детали заявки</h3>
@@ -339,6 +306,7 @@ const UserPage = () => {
             )}
             <div className={styles.modalButtons}>
               <button
+                type="button"
                 className={styles.acceptButton}
                 onClick={async () => {
                   await useApprove(selectedRequest.id);
@@ -352,6 +320,7 @@ const UserPage = () => {
                 Принять
               </button>
               <button
+                type="button"
                 className={styles.rejectButton}
                 onClick={async () => {
                   await useBan(selectedRequest.id);
@@ -374,6 +343,7 @@ const UserPage = () => {
         <div className={styles.modalBackdrop}>
           <div className={styles.modal}>
             <button
+              type="button"
               className={styles.modal__close}
               onClick={() => setReviewModalOpen(false)}
               aria-label="Закрыть"
@@ -410,6 +380,7 @@ const UserPage = () => {
             )}
 
             <button
+              type="button"
               className={styles.modal__submit}
               onClick={handleSubmitReview}
               disabled={
@@ -425,68 +396,7 @@ const UserPage = () => {
       )}
       {/* Модалка редактирования профиля */}
       {isEditModalOpen && (
-        <div className={styles.modalBackdrop}>
-          <div className={styles.modal}>
-            <button
-              className={styles.modal__close}
-              onClick={() => setEditModalOpen(false)}
-              aria-label="Закрыть"
-            >
-              ✕
-            </button>
-            <h3>Редактировать профиль</h3>
-
-            <div className={styles.modal__photoBlock}>
-              {editPhotoPreview ? (
-                <div className={styles.modal__photoWrapper}>
-                  <img
-                    src={editPhotoPreview}
-                    alt="Превью фото"
-                    className={styles.modal__photoPreview}
-                  />
-                  <button
-                    className={styles.modal__removePhotoBtn}
-                    onClick={handleRemovePhoto}
-                    aria-label="Удалить фото"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ) : (
-                <div className={styles.modal__photoPlaceholder}>
-                  Фото отсутствует
-                </div>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoChange}
-                className={styles.modal__fileInput}
-              />
-            </div>
-
-            <input
-              type="text"
-              value={editName}
-              onChange={(e) => setEditName(e.target.value)}
-              placeholder="Имя"
-              className={styles.modal__input}
-            />
-            <textarea
-              value={editAbout}
-              onChange={(e) => setEditAbout(e.target.value)}
-              placeholder="О себе"
-              className={styles.modal__textarea}
-            />
-            <button
-              className={styles.modal__submit}
-              onClick={handleEditSubmit}
-              disabled={!editName.trim()}
-            >
-              Сохранить
-            </button>
-          </div>
-        </div>
+        <EditUserModal onClose={() => setEditModalOpen(false)} />
       )}
       {/* Модалка добавления работы */}
       {isAddWorkModalOpen && (
