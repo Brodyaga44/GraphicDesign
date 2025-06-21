@@ -1,0 +1,46 @@
+$mainfont: "YourMainFont", sans-serif;
+$user-white: #fff;
+$user-black: #000;
+$user-gray: #e0e0e0;
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: $user-white;
+  padding: 32px 24px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  font-family: $mainfont;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 20px;
+  }
+}
+
+.modal__close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: $user-black;
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
