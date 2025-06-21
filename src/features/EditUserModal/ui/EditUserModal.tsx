@@ -17,10 +17,13 @@ const EditUserModal = ({ onClose }: { onClose: VoidFunction }) => {
 
   const { updateUser } = useEditUser();
 
+  console.log(user);
   const methods = useForm<IEditUserForm>({
     defaultValues: {
       user: {
-        name: user?.username,
+        id: user?.id,
+        username: user?.username,
+        name: user?.name,
         about: user?.about,
         skills: user?.skills,
         directions: user?.directions,
@@ -32,7 +35,7 @@ const EditUserModal = ({ onClose }: { onClose: VoidFunction }) => {
   const handleEditSubmit = (data: IEditUserForm) => {
     const res = updateUser(data);
     console.log(res);
-    // onClose();
+    onClose();
 
     notification.success({
       message: "Профиль обновлён",
@@ -52,6 +55,21 @@ const EditUserModal = ({ onClose }: { onClose: VoidFunction }) => {
             <EditUserAvatar
               avatarData={field.value}
               onChange={field.onChange}
+            />
+          )}
+        />
+        <Controller
+          control={methods.control}
+          name={"user.username"}
+          rules={{ required: true }}
+          render={({ field, fieldState }) => (
+            <input
+              {...field}
+              type="text"
+              placeholder="Логин"
+              className={clsx(styles.modal__input, {
+                [styles.modal__input__error]: fieldState.error,
+              })}
             />
           )}
         />

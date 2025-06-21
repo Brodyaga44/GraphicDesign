@@ -4,6 +4,8 @@ export interface IAvatar {
 }
 
 export interface IUser {
+  id: number;
+  username: string;
   name: string;
   about: string;
   skills: string;
@@ -12,5 +14,5 @@ export interface IUser {
 
 export interface IEditUserForm {
   user: IUser;
-  avatar: IAvatar | null;
+  avatar: File | null;
 }

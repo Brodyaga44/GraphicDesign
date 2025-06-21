@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import styles from "./userpage.module.scss";
 
+import "swiper/css/pagination";
 import "swiper/css";
 import "swiper/css/navigation";
 import useAuthContext from "@/app/module/hooks/useAuthContext";
@@ -26,7 +27,6 @@ const userOrders = userWorks;
 
 const UserPage = () => {
   const { user } = useAuthContext();
-  console.log(user);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isAddWorkModalOpen, setAddWorkModalOpen] = useState(false);
@@ -121,9 +121,18 @@ const UserPage = () => {
             )}
 
             <div className={styles.user__profileInfo}>
-              <div className={styles.user__name}>{user.username}</div>
-              {user.about && (
-                <div className={styles.user__about}>{user.about}</div>
+              <div className={styles.user__name}>{user.name}</div>
+              <div className={styles.user__description}>
+                <p className={styles.user__description_text}>{user.about}</p>
+              </div>
+              {!!user.skills?.length && (
+                <div className={styles.skillsContainer}>
+                  {user.skills.split(",").map((skill) => (
+                    <span key={skill} className={styles.skillTag}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               )}
               <div className={styles.btn__wrapper}>
                 <button

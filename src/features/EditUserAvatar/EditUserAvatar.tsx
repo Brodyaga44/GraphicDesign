@@ -1,4 +1,4 @@
-import type { IAvatar } from "../EditUserModal/model/types/IEditUserForm";
+import { useEffect, useState } from "react";
 
 import styles from "./EditUserAvatar.module.scss";
 
@@ -6,29 +6,38 @@ const EditUserAvatar = ({
   avatarData,
   onChange,
 }: {
-  avatarData: IAvatar | null;
-  onChange: (data: IAvatar | null) => void;
+  avatarData: File | null;
+  onChange: (data: File | null) => void;
 }) => {
+  const [preview, setPreview] = useState<string | null>(null);
+
+  // useEffect(() => {
+  //   if (avatarData) {
+  //     const objectUrl = URL.createObjectURL(avatarData);
+  //     setPreview(objectUrl);
+
+  //     return () => URL.revokeObjectURL(objectUrl);
+  //   }
+  //   setPreview(null);
+  // }, [avatarData]);
+
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        onChange({
-          uri: reader.result as string,
-          filename: file.name,
-        });
-      };
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append("image", file, file.name);
+      console.log(file);
+      onChange(formData);
     }
   };
 
   return (
     <div className={styles.photoBlock}>
-      {avatarData ? (
+      {preview ? (
         <div className={styles.photoWrapper}>
           <img
-            src={avatarData.uri}
+            src={preview}
             alt="Превью фото"
             className={styles.photoPreview}
           />

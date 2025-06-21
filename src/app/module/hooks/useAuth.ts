@@ -47,7 +47,7 @@ const useAuth = () => {
     }
   }, []);
 
-  return { user, logout, login };
+  return { user, logout, login, setUser };
 };
 
 export default useAuth;
