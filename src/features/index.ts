@@ -1,3 +1,4 @@
+import { AdminRequestModal } from "./AdminRequestModal/index.ts";
 import { EditUserModal } from "./EditUserModal/index.ts";
 import TestFeature from "./TestFeature/TestFeature.tsx";
 
@@ -32,5 +33,6 @@ export {
   ElementsSlider,
   About,
   SearchInput,
+  AdminRequestModal,
   EditUserModal,
 };

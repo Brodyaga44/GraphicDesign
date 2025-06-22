@@ -1,7 +1,5 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { notification } from "antd";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 import styles from "./userpage.module.scss";
 
@@ -11,33 +9,27 @@ import "swiper/css/navigation";
 import useAuthContext from "@/app/module/hooks/useAuthContext";
 import { EditUserModal } from "@/features";
 import WorkStatusDropdown from "@/features/WorkStatusDropdown/ui/WorkStatusDropdown";
-import { useApprove } from "@/pages/UserPage/model/hooks/useApprove.ts";
-import { useBan } from "@/pages/UserPage/model/hooks/useBan.ts";
-import { useGetApplications } from "@/pages/UserPage/model/hooks/useGetApplications.ts";
 import Photo from "@/shared/assets/Icons/DefaultPhoto.svg?react";
-import type { ILoginOutput } from "@/shared/config/api/ILoginOutput.ts";
-import { Footer } from "@/widgets";
+import { useGetWorks } from "@/shared/libs/hooks/useGetWorks";
+import { AdminRequestsList, Footer } from "@/widgets";
 import ArtistModal from "@/widgets/ArtistModal/ui/ArtistModal.tsx";
 import Header from "@/widgets/Header/ui/Header";
 
-const userWorks = [
-  { id: 1, image: "image", title: "product", status: "in work" },
-];
-const userOrders = userWorks;
-
 const UserPage = () => {
   const { user } = useAuthContext();
+  const { works } = useGetWorks();
+  // TODO: Фильтровать заказы для пользователя
+  const userWorks = useMemo(
+    () => works?.filter((work) => work.userId === user?.id),
+    [works],
+  );
+
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isAddWorkModalOpen, setAddWorkModalOpen] = useState(false);
   const [selectedWorkId, setSelectedWorkId] = useState<number | null>(null);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
-
-  // --- Новое состояние для модалки заявки администратора ---
-  const [selectedRequest, setSelectedRequest] = useState<ILoginOutput | null>(
-    null,
-  );
 
   // Функция проверки на запрещенные слова
   const containsForbiddenWords = (text: string): boolean => {
@@ -46,23 +38,9 @@ const UserPage = () => {
     return forbiddenWords.some((word) => lowerText.includes(word));
   };
 
-  if (!user) return null;
-
-  const userRole = localStorage.getItem("role");
-  const { applications, setApplications } = useGetApplications();
-  // const [approvedUser, setApprovedUser] = useState<ILoginOutput | null>(null);
-
   if (!user) return <div>Пользователь не найден</div>;
 
-  // const userWorks =
-  //   userRole === "AUTHOR" && user.works_id
-  //     ? user.works_id.map((id) => products.find((p) => p.id === id))
-  //     : [];
-
-  // const userOrders =
-  //   userRole !== "AUTHOR" && userRole !== "ADMIN" && user.orders_id
-  //     ? user.orders_id.map((id) => products.find((p) => p.id === id))
-  //     : [];
+  const userRole = localStorage.getItem("role");
 
   // Открыть модалку отзыва
   const handleLeaveReview = (workId: number) => {
@@ -92,23 +70,12 @@ const UserPage = () => {
     }
   };
 
-  // Открыть модалку заявки админа
-  // const openRequestModal = (request: (typeof adminRequests)[0]) => {
-  //   setSelectedRequest(request);
-  // };
-
-  // Закрыть модалку заявки
-  const closeRequestModal = () => {
-    setSelectedRequest(null);
-  };
-
   return (
     <div className={styles.layout}>
       <Header />
       <main className={styles.main}>
         <div className={styles.user__container}>
           <h2 className={styles.user__title}>Профиль</h2>
-
           <div className={styles.user__profile}>
             {user.photoUri ? (
               <img
@@ -119,7 +86,6 @@ const UserPage = () => {
             ) : (
               <Photo className={styles.user__avatar} />
             )}
-
             <div className={styles.user__profileInfo}>
               <div className={styles.user__name}>{user.name}</div>
               <div className={styles.user__description}>
@@ -156,48 +122,7 @@ const UserPage = () => {
           </div>
 
           {/* --- Вставляем новый блок для админа --- */}
-          {userRole === "ADMIN" && (
-            <>
-              <h3 className={styles.user__subtitle}>Заявки на регистрацию</h3>
-              <div className={styles.adminRequestsList}>
-                {applications.length ? (
-                  applications
-                    .filter((item) => !item.blocked && !item.approved)
-                    .map((req) => (
-                      <div key={req.id} className={styles.adminRequestItem}>
-                        <div className={styles.adminRequestInfo}>
-                          {req.photoUri ? (
-                            <img
-                              src={`https://graphico.ru/s3/${req.photoUri}`}
-                              alt={req.username}
-                              className={styles.adminRequestPhoto}
-                            />
-                          ) : (
-                            <div className={styles.reviewAvatar}>
-                              {req.name?.charAt(0).toUpperCase()}
-                            </div>
-                          )}
-                          <div>
-                            <div>
-                              <b>{req.name}</b> ({req.roles[0]?.name})
-                            </div>
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          className={styles.adminRequestButton}
-                          onClick={() => setSelectedRequest(req)}
-                        >
-                          Подробнее
-                        </button>
-                      </div>
-                    ))
-                ) : (
-                  <div>Заявок нет</div>
-                )}
-              </div>
-            </>
-          )}
+          {userRole === "ADMIN" && <AdminRequestsList />}
 
           {/* Показывать "Ваши работы" или "Ваши заказы", только если роль не админ */}
           {userRole !== "ADMIN" && (
@@ -207,19 +132,20 @@ const UserPage = () => {
               </h3>
 
               <div className={styles.user__orders}>
-                {(userRole === "AUTHOR" ? userWorks : userOrders).length ? (
-                  (userRole === "AUTHOR" ? userWorks : userOrders).map(
+                {((userRole === "AUTHOR" ? userWorks : userWorks) ?? [])
+                  .length ? (
+                  ((userRole === "AUTHOR" ? userWorks : userWorks) ?? []).map(
                     (item) =>
                       item ? (
                         <div key={item.id} className={styles.user__order}>
                           <img
-                            src={item.image}
-                            alt={item.title}
+                            src={`https://graphico.ru/s3/${item.images?.[0]?.uri}`}
+                            alt={item.titleName}
                             className={styles.user__orderImage}
                           />
                           <div className={styles.user__orderInfo}>
                             <div className={styles.user__orderTitle}>
-                              {item.title}
+                              {item.titleName}
                             </div>
                             <div className={styles.user__orderStatus}>
                               Статус:{" "}
@@ -258,94 +184,6 @@ const UserPage = () => {
         </div>
       </main>
       <Footer />
-      {/* Модалка заявки администратора */}
-      {selectedRequest && (
-        <div className={styles.modalBackdrop}>
-          <div className={styles.modal}>
-            <button
-              type="button"
-              className={styles.modal__close}
-              onClick={closeRequestModal}
-            >
-              ✕
-            </button>
-            <h3>Детали заявки</h3>
-            <p>
-              <b>Имя:</b> {selectedRequest.username}
-            </p>
-            <p>
-              <b>Тип:</b> {selectedRequest.roles[0].name}
-            </p>
-            {selectedRequest.about && (
-              <p>
-                <b>О себе:</b> {selectedRequest.approved ? "yes" : "no"}
-              </p>
-            )}
-            {selectedRequest.skills && (
-              <p>
-                <b>Навыки:</b> {selectedRequest.id}
-              </p>
-            )}
-            {!!selectedRequest.directions?.length && (
-              <p>
-                <b>Направления:</b> {selectedRequest.directions.join(", ")}
-              </p>
-            )}
-            {selectedRequest.works?.length > 0 && (
-              <div>
-                <b>Примеры работ:</b>
-                <Swiper
-                  modules={[Navigation]}
-                  navigation
-                  spaceBetween={10}
-                  slidesPerView={1}
-                  className={styles.worksSwiper}
-                >
-                  {selectedRequest.works.map((url, i) => (
-                    <SwiperSlide key={i}>
-                      <img
-                        src={url}
-                        alt={`Работа ${i + 1}`}
-                        className={styles.worksImage}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            )}
-            <div className={styles.modalButtons}>
-              <button
-                type="button"
-                className={styles.acceptButton}
-                onClick={async () => {
-                  await useApprove(selectedRequest.id);
-                  notification.success({ message: "Пользователь добавлен" });
-                  closeRequestModal();
-                  setApplications((prev) =>
-                    prev.filter((item) => item.id !== selectedRequest.id),
-                  );
-                }}
-              >
-                Принять
-              </button>
-              <button
-                type="button"
-                className={styles.rejectButton}
-                onClick={async () => {
-                  await useBan(selectedRequest.id);
-                  notification.error({ message: "Пользователь отклонен" });
-                  closeRequestModal();
-                  setApplications((prev) =>
-                    prev.filter((item) => item.id !== selectedRequest.id),
-                  );
-                }}
-              >
-                Отклонить
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Модалка отзыва */}
       {isReviewModalOpen && (

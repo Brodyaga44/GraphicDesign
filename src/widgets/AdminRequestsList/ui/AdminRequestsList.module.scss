@@ -1,0 +1,42 @@
+.adminRequestsList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px;
+  max-width: 600px;
+  background: #fff;
+  color: #000;
+  font-family: Arial, sans-serif;
+}
+
+.user__subtitle {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.adminRequestDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.adminRequestName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.adminRequestType {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 4px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.noRequests {
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+  padding: 20px 0;
+}
