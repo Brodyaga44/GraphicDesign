@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
-import { ILogUser } from "@/features/AddLoginForm/module/ILogUser.ts";
+import type { ILogUser } from "@/features/AddLoginForm/module/ILogUser.ts";
 import { $api } from "@/shared/config/api/api.ts";
-import { ILoginOutput, IUserData } from "@/shared/config/api/ILoginOutput.ts";
+import type {
+  ILoginOutput,
+  IUserData,
+} from "@/shared/config/api/ILoginOutput.ts";
 
 const useAuth = () => {
   const [user, setUser] = useState<IUserData | null>(null);
@@ -20,9 +23,10 @@ const useAuth = () => {
       },
     });
 
-    if (res.data && userData.data) {
+    if (res.data && userData.data && userData.data.name) {
       setUser(userData.data);
       localStorage.setItem("user", JSON.stringify(userData.data));
+      console.log(userData.data);
       localStorage.setItem("role", userData.data.roles[0].name);
       localStorage.setItem("token", res.data.token);
     } else {
@@ -44,7 +48,7 @@ const useAuth = () => {
     }
   }, []);
 
-  return { user, logout, login };
+  return { user, logout, login, setUser };
 };
 
 export default useAuth;
