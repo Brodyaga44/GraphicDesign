@@ -23,9 +23,10 @@ const useAuth = () => {
       },
     });
 
-    if (res.data && userData.data) {
+    if (res.data && userData.data && userData.data.name) {
       setUser(userData.data);
       localStorage.setItem("user", JSON.stringify(userData.data));
+      console.log(userData.data);
       localStorage.setItem("role", userData.data.roles[0].name);
       localStorage.setItem("token", res.data.token);
     } else {
