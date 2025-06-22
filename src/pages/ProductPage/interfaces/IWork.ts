@@ -1,3 +1,5 @@
+import type { EStatus } from "@/shared/config/enums/EStatus";
+
 export interface IWork {
   id: number;
   userId: number;
@@ -9,7 +11,7 @@ export interface IWork {
     filename: string;
     uri: string;
   }[];
-  status: string;
+  status: EStatus;
   category: string;
   price: number;
   style: string;

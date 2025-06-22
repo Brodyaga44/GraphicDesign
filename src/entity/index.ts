@@ -1,4 +1,5 @@
 import { RequestCard } from "./RequestCard";
+import { WorkCard } from "./WorkCard";
 
 import ProductReview from "@/entity/ProductReview/ui/ProductReview.tsx";
 import ServiceCard from "@/entity/ServiceCard/ui/ServiceCard.tsx";
@@ -13,4 +14,5 @@ export {
   ServiceCard,
   ProductReview,
   RequestCard,
+  WorkCard,
 };

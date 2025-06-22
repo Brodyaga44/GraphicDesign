@@ -1,4 +1,5 @@
 import { AdminRequestsList } from "./AdminRequestsList";
+import { WorksList } from "./WorksList";
 
 import CategoryProducts from "@/widgets/CategoryProducts/ui/CategoryProducts.tsx";
 import Footer from "@/widgets/Footer/ui/Footer.tsx";
@@ -14,4 +15,5 @@ export {
   JoinInvite,
   CategoryProducts,
   AdminRequestsList,
+  WorksList,
 };

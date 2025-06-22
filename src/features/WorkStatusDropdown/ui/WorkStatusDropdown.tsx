@@ -1,22 +1,23 @@
 import { useState } from "react";
 
-type Status = "В работе" | "Готово" | "Отменен";
+import { statuses } from "../config/selectValues";
+import { useChangeStatus } from "../libs/hooks/useChangeStatus";
+
+import type { EStatus } from "@/shared/config/enums/EStatus";
 
 type Props = {
   workId: number;
-  currentStatus: Status;
+  currentStatus: EStatus;
 };
 
-const statuses: Status[] = ["В работе", "Готово", "Отменен"];
-
 const WorkStatusDropdown = ({ workId, currentStatus }: Props) => {
-  const [status, setStatus] = useState(currentStatus);
+  const [status, setStatus] = useState<EStatus>(currentStatus);
+  const { changeStatus } = useChangeStatus();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newStatus = e.target.value as Status;
+    const newStatus = e.target.value as EStatus;
     setStatus(newStatus);
-    console.log(`Статус работы ${workId} изменён на ${newStatus}`);
-    // Тут можно добавить отправку на сервер, обновление состояния и т.п.
+    changeStatus({ id: workId, status: newStatus });
   };
 
   return (
@@ -26,8 +27,8 @@ const WorkStatusDropdown = ({ workId, currentStatus }: Props) => {
       className="rounded border p-1 text-sm"
     >
       {statuses.map((s) => (
-        <option key={s} value={s}>
-          {s}
+        <option key={s.value} value={s.value}>
+          {s.label}
         </option>
       ))}
     </select>

@@ -1,45 +1,34 @@
-import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+
+import { useCreateWork } from "../libs/hooks/useCreateWork";
+import type { ICreateWork } from "../model/types/ICreateWork";
 
 import styles from "./ArtistModal.module.scss";
 
 import { themes } from "@/shared/constants/themes.ts";
 
 type Props = {
-  onClose: () => void;
+  onClose: VoidFunction;
 };
 
 export const ArtistModal = ({ onClose }: Props) => {
-  const [form, setForm] = useState({
-    title: "",
-    theme: "",
-    style: "",
-    price: "",
-    desc: "",
-    images: [] as File[],
+  const methods = useForm<{ work: ICreateWork; images: File[] }>({
+    defaultValues: {
+      images: [],
+    },
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const { createWork } = useCreateWork(onClose);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setForm({ ...form, images: Array.from(e.target.files) });
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Submitted:", form);
-    onClose();
+  const handleSubmit = (data: { work: ICreateWork; images: File[] }) => {
+    createWork(data);
   };
 
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalWindow}>
         <button
+          type="button"
           onClick={onClose}
           className={styles.closeButton}
           aria-label="Закрыть"
@@ -47,63 +36,82 @@ export const ArtistModal = ({ onClose }: Props) => {
           ✕
         </button>
         <h2 className={styles.title}>Добавить работу</h2>
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <input
-            name="title"
-            value={form.title}
-            onChange={handleChange}
-            placeholder="Название"
-            className={styles.input}
-            required
+        <form
+          onSubmit={methods.handleSubmit((data) => handleSubmit(data))}
+          className={styles.form}
+        >
+          <Controller
+            control={methods.control}
+            name="work.title"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <input
+                {...field}
+                placeholder="Название"
+                className={styles.input}
+                required
+              />
+            )}
           />
-
-          <select
-            name="theme"
-            value={form.theme}
-            onChange={handleChange}
-            className={styles.select}
-            required
-          >
-            <option value="">Выберите тему</option>
-            {themes.map((theme) => (
-              <option key={theme.id} value={theme.id}>
-                {theme.name}
-              </option>
-            ))}
-          </select>
-
-          <input
-            name="style"
-            value={form.style}
-            onChange={handleChange}
-            placeholder="Стиль"
-            className={styles.input}
+          <Controller
+            control={methods.control}
+            name="work.category"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <select {...field} className={styles.select}>
+                <option value="">Выберите тему</option>
+                {themes.map((theme) => (
+                  <option key={theme.id} value={theme.alias}>
+                    {theme.name}
+                  </option>
+                ))}
+              </select>
+            )}
           />
-
-          <input
-            name="price"
-            value={form.price}
-            onChange={handleChange}
-            placeholder="Цена"
-            type="number"
-            className={styles.input}
+          <Controller
+            control={methods.control}
+            name="work.style"
+            render={({ field }) => (
+              <input {...field} placeholder="Стиль" className={styles.input} />
+            )}
           />
-          <input
-            name="desc"
-            value={form.desc}
-            onChange={handleChange}
-            placeholder="Описание работы"
-            className={styles.input}
+          <Controller
+            control={methods.control}
+            name="work.price"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <input
+                {...field}
+                placeholder="Цена"
+                type="number"
+                className={styles.input}
+              />
+            )}
           />
-
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleFileChange}
-            className={styles.fileInput}
+          <Controller
+            control={methods.control}
+            name="work.about"
+            render={({ field }) => (
+              <input
+                {...field}
+                placeholder="Описание работы"
+                className={styles.input}
+              />
+            )}
           />
-
+          <Controller
+            control={methods.control}
+            name={"images"}
+            render={({ field }) => (
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(e) => field.onChange(e.target.files)}
+                className={styles.fileInput}
+              />
+            )}
+          />
           <button type="submit" className={styles.button}>
             Добавить
           </button>

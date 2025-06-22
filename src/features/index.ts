@@ -1,3 +1,4 @@
+import { AddReviewModal } from "./AddReviewModal/index.ts";
 import { AdminRequestModal } from "./AdminRequestModal/index.ts";
 import { EditUserModal } from "./EditUserModal/index.ts";
 import TestFeature from "./TestFeature/TestFeature.tsx";
@@ -35,4 +36,5 @@ export {
   SearchInput,
   AdminRequestModal,
   EditUserModal,
+  AddReviewModal,
 };

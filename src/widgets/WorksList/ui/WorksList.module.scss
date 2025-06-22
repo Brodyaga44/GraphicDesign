@@ -1,0 +1,19 @@
+.user__subtitle {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.user__orders {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.user__empty {
+  color: #666;
+}
+
+.user__buttonsWrapper {
+  display: flex;
+  gap: 15px;
+}

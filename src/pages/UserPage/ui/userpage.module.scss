@@ -85,68 +85,6 @@ $user-gray: #e0e0e0;
   }
 }
 
-.user__subtitle {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-.user__orders {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.user__order {
-  display: flex;
-  gap: 20px;
-  border: 1px solid $user-gray;
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-.user__orderImage {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 12px;
-  background-color: $user-gray;
-}
-
-.user__orderInfo {
-  flex: 1;
-}
-
-.user__orderTitle {
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.user__orderStatus {
-  margin-bottom: 12px;
-}
-
-.user__reviewButton {
-  padding: 6px 14px;
-  background-color: $user-black;
-  color: $user-white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
-}
-.user__buttonsWrapper {
-  display: flex;
-  gap: 15px;
-}
-
-.user__empty {
-  color: #666;
-}
-
 $user-black: #000;
 $user-white: #fff;
 $user-gray: #e0e0e0;
