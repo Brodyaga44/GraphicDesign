@@ -63,7 +63,21 @@ const Header = () => {
                 profileButton={<div onClick={goToProfile}>Профиль</div>}
               >
                 <div>
-                  <Photo />
+                  {user.photoUri ? (
+                    <img
+                      src={`${user.photoUri}`}
+                      alt="avatar"
+                      style={{
+                        width: 30,
+                        height: 32,
+                        borderRadius: "50%",
+                        backgroundColor: "#e0e0e0",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : (
+                    <Photo />
+                  )}
                 </div>
               </UserDropdown>
               <NotificationsDrawer open={open} setOpen={setOpen} />

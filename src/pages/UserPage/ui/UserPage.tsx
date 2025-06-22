@@ -112,7 +112,7 @@ const UserPage = () => {
           <div className={styles.user__profile}>
             {user.photoUri ? (
               <img
-                src={`https://graphico.ru/s3/${user.photoUri}`}
+                src={`${user.photoUri}`}
                 alt={user.name}
                 className={styles.user__avatar}
               />
