@@ -1,0 +1,55 @@
+$mainfont: "YourMainFont", sans-serif;
+$user-white: #fff;
+$user-black: #000;
+$user-gray: #e0e0e0;
+
+.modal__textarea,
+.modal__input {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid $user-gray;
+  font-family: $mainfont;
+  font-size: 1rem;
+  color: $user-black;
+  background-color: $user-white;
+  resize: none;
+  box-sizing: border-box;
+
+  &__error {
+    border: 1px solid red !important;
+  }
+}
+
+.modal__textarea {
+  height: 150px;
+  margin-bottom: 12px;
+}
+
+.errorMessage {
+  color: #ff4d4f;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.modal__submit {
+  width: 100%;
+  padding: 10px 14px;
+  background-color: $user-black;
+  color: $user-white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #111;
+  }
+}

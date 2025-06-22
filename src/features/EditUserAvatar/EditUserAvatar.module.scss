@@ -1,0 +1,100 @@
+.photoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.photoPreview {
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.photoPlaceholder {
+  width: 120px;
+  height: 120px;
+  background-color: #f0f0f0;
+  border: 1px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.photoWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.removePhotoBtn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff4d4f;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  user-select: none;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: #d9363e;
+  }
+}
+
+.photoWrapper {
+  position: relative;
+  display: inline-block; // чтобы ширина и высота под размер картинки
+  max-width: 120px; // ограничиваем максимально размеры под картинку
+  max-height: 120px;
+}
+
+.photoPreview {
+  display: block; // убрать нижние отступы у img
+  width: 100%; // картинка занимает весь размер родителя
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.removePhotoBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  user-select: none;
+  transition: background-color 0.2s ease;
+  z-index: 10;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}

@@ -1,3 +1,6 @@
+import { AddReviewModal } from "./AddReviewModal/index.ts";
+import { AdminRequestModal } from "./AdminRequestModal/index.ts";
+import { EditUserModal } from "./EditUserModal/index.ts";
 import TestFeature from "./TestFeature/TestFeature.tsx";
 
 import About from "@/features/About/ui/About.tsx";
@@ -14,6 +17,7 @@ import RegForm from "@/features/RegForm/ui/RegForm.tsx";
 import SearchInput from "@/features/SearchInput/ui/SearchInput.tsx";
 import UserDropdown from "@/features/UserDropdown/ui/UserDropdown.tsx";
 import VideoTab from "@/features/VideoTab/ui/VideoTab.tsx";
+
 export {
   TestFeature,
   PhotoTab,
@@ -30,4 +34,7 @@ export {
   ElementsSlider,
   About,
   SearchInput,
+  AdminRequestModal,
+  EditUserModal,
+  AddReviewModal,
 };

@@ -9,6 +9,7 @@ export interface IRoles {
 export interface ILoginOutput {
   id: number;
   username: string;
+  name: string;
   email: string;
   about: string;
   skills: string;
@@ -23,7 +24,6 @@ export interface ILoginOutput {
 export interface IUserData extends ILoginOutput {
   photoFileName: string;
   photoUri: string;
-  name: string;
   approved: boolean;
   blocked: boolean;
   orgOidRestriction: string;
