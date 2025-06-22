@@ -25,13 +25,7 @@ const useAuth = () => {
 
     if (res.data && userData.data) {
       setUser(userData.data);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          ...userData.data,
-          photoUri: `https://graphico.ru/s3/${userData.data.photoUri}`,
-        }),
-      );
+      localStorage.setItem("user", JSON.stringify(userData.data));
       localStorage.setItem("role", userData.data.roles[0].name);
       localStorage.setItem("token", res.data.token);
     } else {

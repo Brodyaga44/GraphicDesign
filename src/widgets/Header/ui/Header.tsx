@@ -65,7 +65,7 @@ const Header = () => {
                 <div>
                   {user.photoUri ? (
                     <img
-                      src={`${user.photoUri}`}
+                      src={`https://graphico.ru/s3/${user.photoUri}`}
                       alt="avatar"
                       style={{
                         width: 30,
