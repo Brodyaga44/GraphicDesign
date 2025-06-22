@@ -7,6 +7,7 @@ export interface IWork {
 export interface IProductDetails {
   id: number;
   title: string;
+  price: number;
   description: string[];
   works: IWork[];
 }

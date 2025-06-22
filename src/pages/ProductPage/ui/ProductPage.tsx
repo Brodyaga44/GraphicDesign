@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { notification } from "antd";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Star from "../../../shared/assets/Icons/rating/star-filled.svg?react";
+import { useGetProductById } from "../lib/hooks/useGetProductById";
+import { usePayment } from "../lib/hooks/usePayment";
 
 import styles from "./productpage.module.scss";
 
@@ -15,59 +16,20 @@ import { reviews } from "@/features/ReviewContent/model/reviews.ts";
 import { authors } from "@/pages/AccoutPage/model/authors.ts";
 import { productDetails } from "@/pages/ProductPage/model/productDetails.ts";
 import { Footer } from "@/widgets";
-import { productsMock } from "@/widgets/CategoryProducts/model/productsMock.ts";
 import Header from "@/widgets/Header/ui/Header.tsx";
 
 const ProductPage = () => {
+  const { handlePayment } = usePayment();
   const { id } = useParams<{ id: string }>();
+  const { product } = useGetProductById(id);
 
-  const product = productsMock.find((item) => item.id === Number(id));
+  // const product = productsMock.find((item) => item.id === Number(id));
   const detail = productDetails.find((item) => item.id === Number(id));
   const productReviews = reviews.filter(
     (item) => item.product_id === Number(id),
   );
   const navigate = useNavigate();
   const author = authors.find((a) => a.id === product?.author_id);
-  const handlePayment = () => {
-    if (!product) {
-      alert(
-        "Платежная система временно недоступна или некорректные данные товара",
-      );
-      return;
-    }
-    // @ts-ignore
-    const widget = new cp.CloudPayments();
-
-    widget.pay(
-      "charge", // 'auth' или 'charge' — для списания сразу используем 'charge'
-      {
-        publicId: "test_api_00000000000000000000001", // тут замени на свой publicId из личного кабинета CloudPayments
-        description: `Оплата товара: ${product.title}`,
-        amount: product.price,
-        currency: "RUB",
-        invoiceId: `order_${Date.now()}`, // уникальный номер заказа
-        skin: "mini",
-        autoClose: 3, // автозакрытие виджета после успешной оплаты через 3 секунды
-        payer: {
-          phone: "+71234567890", // можно заменить на номер пользователя
-          firstName: "Иван",
-          lastName: "Иванов",
-        },
-      },
-      {
-        onSuccess: () => {
-          notification.success({
-            message: "Спасибо за покупку!",
-            description: `Ваш заказ ${product.title} успешно оплачен.`,
-            placement: "topRight",
-          });
-        },
-        onFail: () => {
-          alert("Отмена заказа");
-        },
-      },
-    );
-  };
 
   if (!product || !detail || !author) {
     return <div>Товар не найден</div>;
