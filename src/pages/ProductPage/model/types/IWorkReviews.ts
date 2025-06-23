@@ -1,4 +1,5 @@
 export interface IWorkReview {
+  id: number;
   author: {
     username: string;
     directions: string[];
@@ -19,6 +20,5 @@ export interface IWorkReview {
   };
   text: string;
   rate: number;
-  id: number;
   workId: number;
 }

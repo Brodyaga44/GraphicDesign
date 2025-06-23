@@ -1,0 +1,28 @@
+// Контейнер ошибки
+.errorContainer {
+  text-align: center;
+  padding: 60px 20px;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #333;
+  }
+
+  p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+}
+
+.pageWrapper {
+  padding: 35px 115px;
+  font:
+    500 16px "Macan",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+}

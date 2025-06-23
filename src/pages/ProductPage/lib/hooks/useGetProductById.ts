@@ -8,9 +8,11 @@ export const useGetProductById = (productId?: string) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!productId) return;
+
     setLoading(true);
     $api
-      .get(productId ? `/public/work/search?id=${productId}` : "")
+      .get(`/public/work/search?id=${productId}`)
       .then((res) => setProduct(res.data))
       .finally(() => setLoading(false));
   }, []);

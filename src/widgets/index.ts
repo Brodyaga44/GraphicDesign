@@ -1,3 +1,4 @@
+import Header from "./Header/ui/Header";
 import { AdminRequestsList } from "./AdminRequestsList";
 import { WorksList } from "./WorksList";
 
@@ -16,4 +17,5 @@ export {
   CategoryProducts,
   AdminRequestsList,
   WorksList,
+  Header,
 };

@@ -2,9 +2,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import Star from "../../../shared/assets/Icons/rating/star-filled.svg?react";
 import { useGetProductById } from "../lib/hooks/useGetProductById";
 import { useGetReviews } from "../lib/hooks/useGetReviews";
 import { usePayment } from "../lib/hooks/usePayment";
+
+import { Loader } from "./components/Loader/Loader";
+import { NotFound } from "./components/NotFound/NotFound";
 
 import styles from "./productpage.module.scss";
 
@@ -20,50 +24,21 @@ const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
   const { product, loading } = useGetProductById(id);
   const { reviews } = useGetReviews(id);
-  console.log("product", product);
 
   const navigate = useNavigate();
 
   if (loading) {
-    return (
-      <>
-        <Header />
-        <div className={styles.pageWrapper}>
-          <div className={styles.loaderContainer}>
-            <div className={styles.loader}>
-              <div className={styles.loaderSpinner} />
-              <p className={styles.loaderText}>Загружаем товар...</p>
-            </div>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
+    return <Loader />;
   }
 
   if (!product) {
-    return (
-      <>
-        <Header />
-        <div className={styles.pageWrapper}>
-          <div className={styles.errorContainer}>
-            <h2>Товар не найден</h2>
-            <p>
-              К сожалению, запрашиваемый товар не существует или был удален.
-            </p>
-            <button
-              type="button"
-              className={styles.backButton}
-              onClick={() => navigate(-1)}
-            >
-              Вернуться назад
-            </button>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
+    return <NotFound />;
   }
+
+  const rates = reviews?.map((review) => review.rate);
+  const averageRate = rates.length
+    ? rates.reduce((sum, rate) => sum + rate, 0) / rates.length
+    : 0;
 
   return (
     <>
@@ -96,7 +71,8 @@ const ProductPage = () => {
             </div>
 
             <div className={styles.infoSidebar}>
-              <div
+              <button
+                type="button"
                 className={styles.authorBlock}
                 onClick={() => navigate(`/author/${product.userId}`)}
               >
@@ -107,14 +83,17 @@ const ProductPage = () => {
                     alt={product?.user?.name}
                   />
                 </div>
-                {/* <div className={styles.authorInfo}>
+                <div className={styles.authorInfo}>
                   <h4 className={styles.authorName}>{product?.user.name}</h4>
                   <div className={styles.rating}>
-                    {product?.user?.rating} <Star className={styles.starIcon} />
+                    {averageRate} <Star className={styles.starIcon} />
                   </div>
-                </div> */}
-              </div>
+                </div>
+              </button>
 
+              <div className={styles.advantagesList}>
+                {product?.user?.about}
+              </div>
               {/* <ul className={styles.advantagesList}>
                 {author.advantages?.map((adv, index) => (
                   <li key={index} className={styles.advantageItem}>
@@ -133,13 +112,14 @@ const ProductPage = () => {
               </button>
             </div>
           </div>
-          {/* <div className={styles.descriptionBlock}>
+          <div className={styles.descriptionBlock}>
             <h2>Описание работы</h2>
-            {detail.description.map((paragraph, index) => (
+            <p>{product?.titleName}</p>
+            <p>{product?.about}</p>
+            {/* {detail.description.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
-            ))}
-          </div> */}
-          *
+            ))} */}
+          </div>
           {!!reviews.length && (
             <div className={styles.reviewsSection}>
               <h2 className={styles.reviewsTitle}>Отзывы</h2>
