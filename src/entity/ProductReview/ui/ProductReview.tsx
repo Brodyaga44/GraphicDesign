@@ -8,27 +8,30 @@ const ProductReview = ({ review }: ReviewProps) => {
   return (
     <div className={styles.reviewItem}>
       <div className={styles.reviewAvatar}>
-        {review.reviewImg ? (
-          <img src={review.reviewImg} alt={review.reviewName} />
+        {review?.author?.photoUri ? (
+          <img
+            src={`https://graphico.ru/s3/${review?.author?.photoUri}`}
+            alt={review?.author?.name}
+          />
         ) : (
-          <span>{review.reviewName.charAt(0)}</span>
+          <span>{review?.author?.name.charAt(0)}</span>
         )}
       </div>
       <div className={styles.reviewContent}>
         <div className={styles.reviewHeader}>
-          <h4>{review.reviewName}</h4>
+          <h4>{review?.author?.name}</h4>
           <div className={styles.reviewRating}>
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
                 key={i}
                 className={`${styles.starIcon} ${
-                  i < review.rating ? styles.filled : styles.empty
+                  i < review?.rate ? styles.filled : styles.empty
                 }`}
               />
             ))}
           </div>
         </div>
-        <p>{review.review}</p>
+        <p>{review.text}</p>
       </div>
     </div>
   );

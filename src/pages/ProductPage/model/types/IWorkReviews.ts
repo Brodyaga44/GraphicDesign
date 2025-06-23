@@ -18,6 +18,7 @@ export interface IWorkReview {
     orgOidRestriction: string | null;
   };
   text: string;
+  rate: number;
   id: number;
   workId: number;
 }
