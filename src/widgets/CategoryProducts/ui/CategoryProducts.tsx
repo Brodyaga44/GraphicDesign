@@ -47,7 +47,7 @@ const CategoryProducts = ({ products }: Props) => {
                 <section className={styles.catProduct__authorSection}>
                   {product.user?.photoUri ? (
                     <img
-                      src={product.user?.photoUri}
+                      src={`https://graphico.ru/s3/${product.user?.photoUri}`}
                       className={styles.catProduct__authorPhoto}
                       alt={product.user?.name}
                     />

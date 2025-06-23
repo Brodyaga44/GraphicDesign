@@ -1,5 +1,7 @@
 import Header from "./Header/ui/Header";
 import { AdminRequestsList } from "./AdminRequestsList";
+import { AuthorReviews } from "./AuthorReviews";
+import { AuthorWorks } from "./AuthorWorks";
 import { WorksList } from "./WorksList";
 
 import CategoryProducts from "@/widgets/CategoryProducts/ui/CategoryProducts.tsx";
@@ -18,4 +20,6 @@ export {
   AdminRequestsList,
   WorksList,
   Header,
+  AuthorReviews,
+  AuthorWorks,
 };

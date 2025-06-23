@@ -1,3 +1,4 @@
+import { AuthorReview } from "./AuthorReview";
 import { RequestCard } from "./RequestCard";
 import { WorkCard } from "./WorkCard";
 
@@ -15,4 +16,5 @@ export {
   ProductReview,
   RequestCard,
   WorkCard,
+  AuthorReview,
 };

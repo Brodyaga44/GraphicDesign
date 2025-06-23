@@ -1,0 +1,25 @@
+.reviewGroup {
+  margin-bottom: 30px;
+  border: none;
+  background: none;
+  border-bottom: 1px solid lightgray;
+}
+
+.reviewProduct {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #111;
+  cursor: pointer;
+  margin-bottom: 12px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.3s ease;
+  justify-content: left;
+  display: flex;
+
+  &:hover {
+    border-color: #222;
+  }
+}

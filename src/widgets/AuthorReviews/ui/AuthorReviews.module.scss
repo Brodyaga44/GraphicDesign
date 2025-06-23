@@ -1,0 +1,23 @@
+.sectionTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #222;
+  border-bottom: 2px solid black;
+  padding-bottom: 6px;
+  max-width: fit-content;
+}
+
+/* Отзывы */
+.reviews {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 50px;
+}
+
+.notFound {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-top: 100px;
+  color: #444;
+}

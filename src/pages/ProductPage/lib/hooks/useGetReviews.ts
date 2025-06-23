@@ -4,7 +4,7 @@ import type { IWorkReview } from "../../model/types/IWorkReviews";
 
 import { $api } from "@/shared/config/api/api";
 
-export const useGetReviews = (workId?: string) => {
+export const useGetReviews = (workId?: string | number) => {
   const [reviews, setReviews] = useState<IWorkReview[]>([]);
 
   useEffect(() => {

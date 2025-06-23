@@ -30,7 +30,7 @@ const ProductReview = ({ review }: ReviewProps) => (
           ))}
         </div>
       </div>
-      <p>{review.text}</p>
+      <p style={{ textAlign: "left" }}>{review.text}</p>
     </div>
   </div>
 );
