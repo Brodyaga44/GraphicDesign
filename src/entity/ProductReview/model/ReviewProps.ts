@@ -1,3 +1,3 @@
-import { IReview } from "@/features/ReviewContent/model/IReview.ts";
+import type { IWorkReview } from "@/pages/ProductPage/model/types/IWorkReviews";
 
-export type ReviewProps = { review: IReview };
+export type ReviewProps = { review: IWorkReview };

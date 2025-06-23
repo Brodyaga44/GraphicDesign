@@ -2,10 +2,13 @@ import { notification } from "antd";
 
 import type { IProductDetails } from "../../interfaces/IProductDetails";
 
+import type { IWork } from "@/shared/config/interfaces/IWork";
+
 declare const cp: any;
 
 export const usePayment = () => {
-  const handlePayment = (product?: IProductDetails) => {
+  const handlePayment = (product?: IWork) => {
+    console.log(product);
     if (!product) {
       alert("Некорректные данные товара");
       return;
@@ -16,7 +19,7 @@ export const usePayment = () => {
       "charge", // 'auth' или 'charge' — для списания сразу используем 'charge'
       {
         publicId: "test_api_00000000000000000000001", // тут замени на свой publicId из личного кабинета CloudPayments
-        description: `Оплата товара: ${product.title}`,
+        description: `Оплата товара: ${product.titleName}`,
         amount: product.price,
         currency: "RUB",
         invoiceId: `order_${Date.now()}`, // уникальный номер заказа
@@ -32,7 +35,7 @@ export const usePayment = () => {
         onSuccess: () => {
           notification.success({
             message: "Спасибо за покупку!",
-            description: `Ваш заказ ${product.title} успешно оплачен.`,
+            description: `Ваш заказ ${product.titleName} успешно оплачен.`,
             placement: "topRight",
           });
         },

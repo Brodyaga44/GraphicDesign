@@ -2,7 +2,8 @@ import Star from "../../../shared/assets/Icons/rating/star-filled.svg?react";
 
 import styles from "./productreview.module.scss";
 
-import { ReviewProps } from "@/entity/ProductReview/model/ReviewProps.ts";
+import type { ReviewProps } from "@/entity/ProductReview/model/ReviewProps.ts";
+
 const ProductReview = ({ review }: ReviewProps) => {
   return (
     <div className={styles.reviewItem}>
