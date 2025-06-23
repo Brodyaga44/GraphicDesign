@@ -41,7 +41,7 @@ const WorksList = () => {
     <div>
       <h3 className={styles.user__subtitle}>{title}</h3>
       <div className={styles.user__orders}>
-        {items.length ? (
+        {items?.length ? (
           items.map((item) => (
             <WorkCard
               key={item.id}
