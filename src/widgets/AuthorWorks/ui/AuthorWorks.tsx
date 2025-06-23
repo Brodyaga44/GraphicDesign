@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 
 import styles from "./AuthorWorks.module.scss";
 
-import type { IAuthorWork } from "@/pages/AccoutPage/model/types/IAuthorWork";
+import type { IAuthorWork } from "@/shared/config/interfaces/IAuthorWork";
 
 const AuthorWorks = ({ works }: { works: IAuthorWork["works"] }) => {
   const navigate = useNavigate();

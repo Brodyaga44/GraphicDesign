@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 
 import TGSvg from "../../../shared/assets/Icons/tg.svg?react";
-import { useGetAuthorById } from "../libs/hooks/useGetAuthorById";
-import { useGetWorksByAuthorId } from "../libs/hooks/useGetWorksByAuthorId";
+import { useGetAuthorById } from "../../../shared/libs/hooks/useGetAuthorById";
+import { useGetWorksByAuthorId } from "../../../shared/libs/hooks/useGetWorksByAuthorId";
 
 import styles from "./accountpage.module.scss";
 

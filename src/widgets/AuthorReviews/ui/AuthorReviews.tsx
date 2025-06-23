@@ -1,7 +1,7 @@
 import styles from "./AuthorReviews.module.scss";
 
 import { AuthorReview } from "@/entity";
-import type { IAuthorWork } from "@/pages/AccoutPage/model/types/IAuthorWork";
+import type { IAuthorWork } from "@/shared/config/interfaces/IAuthorWork";
 
 const AuthorReviews = ({ works }: { works: IAuthorWork["works"] }) => {
   return (

@@ -35,21 +35,24 @@ export const usePayment = () => {
       {
         onSuccess: () => {
           $api
-            .post(`/cart/success?id=${product.id}`)
+            .post("/cart/add", { workId: product.id })
+            .then((res) => res.data.id)
             .then((_) => {
-              notification.success({
-                message: "Спасибо за покупку!",
-                description: `Ваш заказ ${product.titleName} успешно оплачен.`,
-                placement: "topRight",
+              $api.post(`/cart/success?id=${product.id}`).then((_) => {
+                notification.success({
+                  message: "Спасибо за покупку!",
+                  description: `Ваш заказ ${product.titleName} успешно оплачен.`,
+                  placement: "topRight",
+                });
               });
             })
-            .catch((_) => {
+            .catch((_) =>
               notification.error({
                 message:
                   "Произошла ошибка при оплате товара на стороне нашего сервиса",
                 placement: "topRight",
-              });
-            });
+              }),
+            );
         },
         onFail: () => {
           notification.error({

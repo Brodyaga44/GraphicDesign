@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import type { IAuthor } from "../../model/types/IAuthor";
+import type { IAuthor } from "../../config/interfaces/IAuthor";
 
 import { $api } from "@/shared/config/api/api";
 

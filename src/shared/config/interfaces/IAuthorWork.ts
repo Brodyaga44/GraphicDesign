@@ -1,4 +1,4 @@
-import type { EStatus } from "@/shared/config/enums/EStatus";
+import type { IWork } from "./IWork";
 
 export interface IUser {
   id: number;
@@ -19,21 +19,5 @@ export interface IUser {
 
 export interface IAuthorWork {
   user: IUser;
-  works: {
-    id: number;
-    userId: number;
-    titleName: string;
-    about: string;
-    images: {
-      id: number;
-      workId: number;
-      filename: string;
-      uri: string;
-    }[];
-    status: EStatus;
-    category: string;
-    price: number;
-    style: string;
-    user: IUser;
-  }[];
+  works: IWork[];
 }

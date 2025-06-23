@@ -2,7 +2,8 @@ import styles from "./WorkCard.module.scss";
 
 import useAuthContext from "@/app/module/hooks/useAuthContext";
 import WorkStatusDropdown from "@/features/WorkStatusDropdown/ui/WorkStatusDropdown";
-import type { IWork } from "@/pages/ProductPage/interfaces/IWork";
+import { useGetReviews } from "@/pages/ProductPage/lib/hooks/useGetReviews";
+import type { IWork } from "@/shared/config/interfaces/IWork";
 
 const WorkCard = ({
   work,
@@ -13,6 +14,8 @@ const WorkCard = ({
 }) => {
   const { user } = useAuthContext();
   const isAuthor = user?.roles?.[0].name === "AUTHOR";
+  const { reviews } = useGetReviews(work.id);
+  const userReview = reviews.find((review) => review.author.id === user?.id);
 
   return (
     <div className={styles.user__order}>
@@ -31,14 +34,22 @@ const WorkCard = ({
             work.status
           )}
         </div>
-        {work.status === "DONE" && work.userId !== user?.id && (
-          <button
-            type="button"
-            className={styles.user__reviewButton}
-            onClick={() => onClick(work.id)}
-          >
-            Оставить отзыв
-          </button>
+        {!userReview ? (
+          work.status === "DONE" &&
+          work.userId !== user?.id && (
+            <button
+              type="button"
+              className={styles.user__reviewButton}
+              onClick={() => onClick(work.id)}
+            >
+              Оставить отзыв
+            </button>
+          )
+        ) : (
+          <div>
+            <b>Ваш отзыв: </b>
+            {userReview.text}
+          </div>
         )}
       </div>
     </div>

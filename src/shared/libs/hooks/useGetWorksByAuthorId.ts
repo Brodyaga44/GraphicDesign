@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import type { IAuthorWork } from "../../model/types/IAuthorWork";
-
 import { $api } from "@/shared/config/api/api";
+import type { IAuthorWork } from "@/shared/config/interfaces/IAuthorWork";
+import type { IWork } from "@/shared/config/interfaces/IWork";
 
 export const useGetWorksByAuthorId = (authorId?: string) => {
-  const [works, setWorks] = useState<IAuthorWork["works"]>([]);
+  const [works, setWorks] = useState<IWork[]>([]);
 
   useEffect(() => {
     if (!authorId) return;

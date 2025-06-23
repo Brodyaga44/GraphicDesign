@@ -1,11 +1,13 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
+
+import { useGetOrders } from "../libs/hooks/useGetOrders";
 
 import styles from "./WorksList.module.scss";
 
 import useAuthContext from "@/app/module/hooks/useAuthContext";
 import { WorkCard } from "@/entity";
 import { AddReviewModal } from "@/features";
-import { useGetWorks } from "@/shared/libs/hooks/useGetWorks";
+import { useGetWorksByAuthorId } from "@/shared/libs/hooks/useGetWorksByAuthorId";
 
 const WorksList = () => {
   const { user } = useAuthContext();
@@ -30,23 +32,20 @@ const WorksList = () => {
     ? "У вас пока нет работ"
     : "У вас пока нет заказов";
 
-  const { works } = useGetWorks();
+  const { works } = useGetWorksByAuthorId(String(user?.id));
+  const { orders } = useGetOrders();
 
-  // TODO: Фильтровать заказы для пользователя
-  const userWorks = useMemo(
-    () => works?.filter((work) => work.userId === user?.id),
-    [works],
-  );
+  const items = isAuthor ? works : orders;
 
   return (
     <div>
       <h3 className={styles.user__subtitle}>{title}</h3>
       <div className={styles.user__orders}>
-        {userWorks.length ? (
-          userWorks.map((work) => (
+        {items.length ? (
+          items.map((item) => (
             <WorkCard
-              key={work.id}
-              work={work}
+              key={item.id}
+              work={item}
               onClick={handleOpenModalReview}
             />
           ))
