@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { notification } from "antd";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import Star from "../../../shared/assets/Icons/rating/star-filled.svg?react";
+import { useGetProductById } from "../lib/hooks/useGetProductById";
+import { useGetReviews } from "../lib/hooks/useGetReviews";
+import { usePayment } from "../lib/hooks/usePayment";
 
 import styles from "./productpage.module.scss";
 
@@ -11,66 +12,57 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { ProductReview } from "@/entity";
-import { reviews } from "@/features/ReviewContent/model/reviews.ts";
-import { authors } from "@/pages/AccoutPage/model/authors.ts";
-import { productDetails } from "@/pages/ProductPage/model/productDetails.ts";
 import { Footer } from "@/widgets";
-import { productsMock } from "@/widgets/CategoryProducts/model/productsMock.ts";
 import Header from "@/widgets/Header/ui/Header.tsx";
 
 const ProductPage = () => {
+  const { handlePayment } = usePayment();
   const { id } = useParams<{ id: string }>();
+  const { product, loading } = useGetProductById(id);
+  const { reviews } = useGetReviews(id);
+  console.log("product", product);
 
-  const product = productsMock.find((item) => item.id === Number(id));
-  const detail = productDetails.find((item) => item.id === Number(id));
-  const productReviews = reviews.filter(
-    (item) => item.product_id === Number(id),
-  );
   const navigate = useNavigate();
-  const author = authors.find((a) => a.id === product?.author_id);
-  const handlePayment = () => {
-    if (!product) {
-      alert(
-        "Платежная система временно недоступна или некорректные данные товара",
-      );
-      return;
-    }
-    // @ts-ignore
-    const widget = new cp.CloudPayments();
 
-    widget.pay(
-      "charge", // 'auth' или 'charge' — для списания сразу используем 'charge'
-      {
-        publicId: "test_api_00000000000000000000001", // тут замени на свой publicId из личного кабинета CloudPayments
-        description: `Оплата товара: ${product.title}`,
-        amount: product.price,
-        currency: "RUB",
-        invoiceId: `order_${Date.now()}`, // уникальный номер заказа
-        skin: "mini",
-        autoClose: 3, // автозакрытие виджета после успешной оплаты через 3 секунды
-        payer: {
-          phone: "+71234567890", // можно заменить на номер пользователя
-          firstName: "Иван",
-          lastName: "Иванов",
-        },
-      },
-      {
-        onSuccess: () => {
-          notification.success({
-            message: "Спасибо за покупку!",
-            description: `Ваш заказ ${product.title} успешно оплачен.`,
-            placement: "topRight",
-          });
-        },
-        onFail: () => {
-          alert("Отмена заказа");
-        },
-      },
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className={styles.pageWrapper}>
+          <div className={styles.loaderContainer}>
+            <div className={styles.loader}>
+              <div className={styles.loaderSpinner} />
+              <p className={styles.loaderText}>Загружаем товар...</p>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </>
     );
-  };
+  }
 
-  if (!product || !detail || !author) {
-    return <div>Товар не найден</div>;
+  if (!product) {
+    return (
+      <>
+        <Header />
+        <div className={styles.pageWrapper}>
+          <div className={styles.errorContainer}>
+            <h2>Товар не найден</h2>
+            <p>
+              К сожалению, запрашиваемый товар не существует или был удален.
+            </p>
+            <button
+              type="button"
+              className={styles.backButton}
+              onClick={() => navigate(-1)}
+            >
+              Вернуться назад
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
   }
 
   return (
@@ -88,15 +80,15 @@ const ProductPage = () => {
                 pagination={{ clickable: true }}
                 className={styles.product__swiper}
               >
-                {detail.works.map((work, index) => (
+                {product.images.map((image) => (
                   <SwiperSlide
-                    key={index}
+                    key={image.id}
                     className={styles.product__swiperSlide}
                   >
                     <img
                       className={styles.product__image}
-                      src={work.imageUrl}
-                      alt={work.altText || `Work ${index}`}
+                      src={`https://graphico.ru/s3/${image.uri}`}
+                      alt={image.fileName}
                     />
                   </SwiperSlide>
                 ))}
@@ -106,50 +98,53 @@ const ProductPage = () => {
             <div className={styles.infoSidebar}>
               <div
                 className={styles.authorBlock}
-                onClick={() => navigate(`/author/${author.id}`)}
+                onClick={() => navigate(`/author/${product.userId}`)}
               >
                 <div className={styles.authorPhotoWrapper}>
                   <img
-                    src={author.photo}
+                    src={`https://graphico.ru/s3/${product?.user?.photoUri}`}
                     className={styles.authorPhoto}
-                    alt={author.name}
+                    alt={product?.user?.name}
                   />
                 </div>
-                <div className={styles.authorInfo}>
-                  <h4 className={styles.authorName}>{author.name}</h4>
+                {/* <div className={styles.authorInfo}>
+                  <h4 className={styles.authorName}>{product?.user.name}</h4>
                   <div className={styles.rating}>
-                    {author.rating} <Star className={styles.starIcon} />
+                    {product?.user?.rating} <Star className={styles.starIcon} />
                   </div>
-                </div>
+                </div> */}
               </div>
 
-              <ul className={styles.advantagesList}>
+              {/* <ul className={styles.advantagesList}>
                 {author.advantages?.map((adv, index) => (
                   <li key={index} className={styles.advantageItem}>
                     <span className={styles.advantageIcon}>✓</span>
                     {adv}
                   </li>
                 ))}
-              </ul>
+              </ul> */}
 
-              <button className={styles.orderButton} onClick={handlePayment}>
+              <button
+                type="button"
+                className={styles.orderButton}
+                onClick={() => handlePayment(product)}
+              >
                 Заказать
               </button>
             </div>
           </div>
-
-          <div className={styles.descriptionBlock}>
+          {/* <div className={styles.descriptionBlock}>
             <h2>Описание работы</h2>
             {detail.description.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
-          </div>
-
-          {productReviews.length > 0 && (
+          </div> */}
+          *
+          {!!reviews.length && (
             <div className={styles.reviewsSection}>
               <h2 className={styles.reviewsTitle}>Отзывы</h2>
-              {productReviews.map((review) => (
-                <ProductReview key={review.reviewName} review={review} />
+              {reviews.map((review) => (
+                <ProductReview key={review.id} review={review} />
               ))}
             </div>
           )}
