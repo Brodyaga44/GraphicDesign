@@ -13,9 +13,11 @@ export const useGetProductById = (productId?: string) => {
     setLoading(true);
     $api
       .get(`/public/work/search?id=${productId}`)
-      .then((res) => setProduct(res.data))
+      .then((res) =>
+        res.data.message ? setProduct(null) : setProduct(res.data),
+      )
       .finally(() => setLoading(false));
-  }, []);
+  }, [productId]);
 
   return { product, loading };
 };

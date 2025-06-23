@@ -2,6 +2,7 @@ import { notification } from "antd";
 
 import type { IProductDetails } from "../../interfaces/IProductDetails";
 
+import { $api } from "@/shared/config/api/api";
 import type { IWork } from "@/shared/config/interfaces/IWork";
 
 declare const cp: any;
@@ -33,14 +34,28 @@ export const usePayment = () => {
       },
       {
         onSuccess: () => {
-          notification.success({
-            message: "Спасибо за покупку!",
-            description: `Ваш заказ ${product.titleName} успешно оплачен.`,
-            placement: "topRight",
-          });
+          $api
+            .post(`/cart/success?id=${product.id}`)
+            .then((_) => {
+              notification.success({
+                message: "Спасибо за покупку!",
+                description: `Ваш заказ ${product.titleName} успешно оплачен.`,
+                placement: "topRight",
+              });
+            })
+            .catch((_) => {
+              notification.error({
+                message:
+                  "Произошла ошибка при оплате товара на стороне нашего сервиса",
+                placement: "topRight",
+              });
+            });
         },
         onFail: () => {
-          alert("Отмена заказа");
+          notification.error({
+            message: "Оплата отменена",
+            placement: "topRight",
+          });
         },
       },
     );

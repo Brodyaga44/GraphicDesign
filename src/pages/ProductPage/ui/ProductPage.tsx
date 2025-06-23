@@ -55,7 +55,7 @@ const ProductPage = () => {
                 pagination={{ clickable: true }}
                 className={styles.product__swiper}
               >
-                {product.images.map((image) => (
+                {product?.images?.map((image) => (
                   <SwiperSlide
                     key={image.id}
                     className={styles.product__swiperSlide}
